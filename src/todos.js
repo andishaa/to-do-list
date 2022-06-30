@@ -8,6 +8,7 @@ const ToDoFactory = (title, desctiption, dueDate, priority) => {
     toDo.desctiption = desctiption;
     toDo.dueDate = dueDate;
     toDo.priority = priority;
+    toDo.project = 'inbox'; // always move in inbox by default
 
     savedToDos.push(toDo); // on new toDo creation always add it to the savedToDos array
 
@@ -30,6 +31,10 @@ const ToDoFactory = (title, desctiption, dueDate, priority) => {
 
     toDo.changePriority = (newPriority) => {
         toDo.priority = newPriority;
+    }
+
+    toDo.moveToProject = (project) => {
+        toDo.project = project;
     }
 
     return toDo;
