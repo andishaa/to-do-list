@@ -5,6 +5,11 @@ const CreateNewProject = (name) => {
     project.name = name;
     project.savedToDos = [];
 
+    //if the user tryes to Add a new project without inputing anything in the form input field don't do anything
+    if (project.name === '') {
+        return;
+    }
+
     PROJECTS.push(project);
 
     project.editName = (newName) => {
