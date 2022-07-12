@@ -1,8 +1,11 @@
+import { PROJECTS } from "./projects";
+
 const body = document.body;
 
 const initDomLoad = () => {
     body.prepend(header());
     body.append(nav());
+    renderProjectsList();
 }
 
 const header = () => {
@@ -82,10 +85,23 @@ const projectForm = () => {
     return projectForm;
 }
 
+const renderProjectsList = () => {
+    const projectsListULelement = document.querySelector('.projects-list');
+
+    removeChilds(projectsListULelement); //remove previously displayed <li> project names on each render (otherwise they start duplicating on every new project added)
+
+    PROJECTS.forEach((project) => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('project-name');
+        listItem.textContent = project.name;
+        projectsListULelement.append(listItem);
+    });
+}
+
 const removeChilds = (parent) => {
     while (parent.lastChild) {
         parent.removeChild(parent.lastChild);
     };
 }
 
-export { initDomLoad, projectForm, removeChilds };
+export { initDomLoad, projectForm, renderProjectsList, removeChilds };
