@@ -1,5 +1,5 @@
-import { projectForm } from "./DOM";
-import { CreateNewProject } from "./projects";
+import { projectForm, removeChilds } from "./DOM";
+import { CreateNewProject, PROJECTS } from "./projects";
 
 function setUpAddProjectBtn() {
     const addProjectBtn = document.getElementById('add-project-btn');
@@ -19,6 +19,7 @@ function setUpFormBtns() {
     if (projectForm !== null) {
         addBtn.addEventListener('click', () => {
             CreateNewProject(formInput.value);
+            renderProjectsList();
             projectForm.remove();
             toggleAddProjectBtn();
         });
@@ -34,7 +35,21 @@ const toggleAddProjectBtn = () => {
     addProjectBtn.classList.toggle('hidden');
 }
 
+const renderProjectsList = () => {
+    const projectsListULelement = document.querySelector('.projects-list');
+
+    removeChilds(projectsListULelement); //remove previously displayed <li> project names on each render (otherwise they start duplicating on every new project added)
+
+    PROJECTS.forEach((project) => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('project-name');
+        listItem.textContent = project.name;
+        projectsListULelement.append(listItem);
+    });
+}
+
 const initUI = () => {
+    renderProjectsList();
     setUpAddProjectBtn();
 }
 
