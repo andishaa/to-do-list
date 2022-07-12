@@ -82,4 +82,10 @@ const projectForm = () => {
     return projectForm;
 }
 
-export { initDomLoad, projectForm };
+const removeChilds = (parent) => {
+    while (parent.lastChild) {
+        parent.removeChild(parent.lastChild);
+    };
+}
+
+export { initDomLoad, projectForm, removeChilds };
