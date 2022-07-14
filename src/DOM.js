@@ -5,7 +5,9 @@ const body = document.body;
 const initDomLoad = () => {
     body.prepend(header());
     body.append(nav());
+    body.append(main());
     renderProjectsList();
+    renderSavedToDos('Inbox'); // always show Inbox on initial load
 }
 
 const header = () => {
@@ -96,6 +98,62 @@ const renderProjectsList = () => {
         listItem.textContent = project.name;
         projectsListULelement.append(listItem);
     });
+}
+
+const main = () => {
+    const mainEl = document.createElement('main');
+    mainEl.classList.add('main');
+
+    const toDosDiv = document.createElement('div');
+    toDosDiv.classList.add('todos-container')
+    mainEl.append(toDosDiv);
+
+    return mainEl;
+}
+
+const renderSavedToDos = (projectName) => {
+    const projectsContainer = document.querySelector('.todos-container');
+
+    removeChilds(projectsContainer); //remove all displayed project cards on each render
+
+    PROJECTS.forEach((project) => {
+        if (project.name !== projectName) {
+            return;
+        }
+
+        project.savedToDos.forEach((toDo) => {
+            const toDoCardDiv = document.createElement('div');
+            toDoCardDiv.classList.add('todo-card');
+            toDoCardDiv.id = toDo.ID;
+
+            const cardTitleDiv = document.createElement('div');
+            cardTitleDiv.classList.add('card-title');
+            cardTitleDiv.textContent = toDo.title;
+            toDoCardDiv.append(cardTitleDiv);
+
+            const cardDueDateDiv = document.createElement('div');
+            cardDueDateDiv.classList.add('card-duedate');
+            cardDueDateDiv.textContent = toDo.dueDate;
+            toDoCardDiv.append(cardDueDateDiv);
+
+            const cardBtns = document.createElement('div');
+            cardBtns.classList.add('card-btns');
+            const showMore = document.createElement('button');
+            showMore.classList.add('btn', 'show-more-btn');
+            showMore.textContent = '>>';
+            cardBtns.append(showMore);
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.classList.add('btn', 'delete-btn');
+            deleteBtn.textContent = 'Delete';
+            cardBtns.append(deleteBtn);
+
+            toDoCardDiv.append(cardBtns);
+
+            projectsContainer.append(toDoCardDiv);
+        });
+    });
+
 }
 
 const removeChilds = (parent) => {
