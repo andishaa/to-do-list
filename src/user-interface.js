@@ -1,5 +1,15 @@
-import { projectForm, renderProjectsList } from "./DOM";
+import { projectForm, renderProjectsList, renderSavedToDos } from "./DOM";
 import { CreateNewProject } from "./projects";
+
+function setUpNavBtns() {
+    const navListItems = document.querySelectorAll('.nav li');
+    navListItems.forEach((navElement) => {
+        navElement.addEventListener('click', (e) => {
+            const projectName = e.target.textContent;
+            renderSavedToDos(projectName);
+        });
+    });
+}
 
 function setUpAddProjectBtn() {
     const addProjectBtn = document.getElementById('add-project-btn');
@@ -20,6 +30,7 @@ function setUpFormBtns() {
         addBtn.addEventListener('click', () => {
             CreateNewProject(formInput.value);
             renderProjectsList();
+            setUpNavBtns(); // after rendering the projects list and a new list items pops in the dom add an event listener again
             projectForm.remove();
             toggleAddProjectBtn();
         });
@@ -37,6 +48,7 @@ const toggleAddProjectBtn = () => {
 
 const initUI = () => {
     setUpAddProjectBtn();
+    setUpNavBtns();
 }
 
 export { initUI }

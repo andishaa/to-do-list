@@ -162,4 +162,4 @@ const removeChilds = (parent) => {
     };
 }
 
-export { initDomLoad, projectForm, renderProjectsList, removeChilds };
+export { initDomLoad, projectForm, renderProjectsList, removeChilds, renderSavedToDos };
