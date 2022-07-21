@@ -106,15 +106,24 @@ const main = () => {
 
     const toDosDiv = document.createElement('div');
     toDosDiv.classList.add('todos-container');
+    const showToDoFormBtn = toDoFormBtn();
     const addToDoForm = addNewToDoForm();
-    mainEl.append(addToDoForm, toDosDiv);
+    mainEl.append(showToDoFormBtn, addToDoForm, toDosDiv);
 
     return mainEl;
 }
 
+const toDoFormBtn = () => {
+    const addToDoBtn = document.createElement('button');
+    addToDoBtn.id = 'todo-form-btn';
+    addToDoBtn.textContent = 'Add new To-Do';
+
+    return addToDoBtn;
+}
+
 const addNewToDoForm = () => {
     const toDoForm = document.createElement('form');
-    toDoForm.classList.add('todo-form',); //make it hidden by default
+    toDoForm.classList.add('todo-form', 'hidden'); //make it hidden by default
 
     const titleInput = document.createElement('input');
     titleInput.classList.add('todo-title');
