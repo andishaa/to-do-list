@@ -105,10 +105,70 @@ const main = () => {
     mainEl.classList.add('main');
 
     const toDosDiv = document.createElement('div');
-    toDosDiv.classList.add('todos-container')
-    mainEl.append(toDosDiv);
+    toDosDiv.classList.add('todos-container');
+    const addToDoForm = addNewToDoForm();
+    mainEl.append(addToDoForm, toDosDiv);
 
     return mainEl;
+}
+
+const addNewToDoForm = () => {
+    const toDoForm = document.createElement('form');
+    toDoForm.classList.add('todo-form',); //make it hidden by default
+
+    const titleInput = document.createElement('input');
+    titleInput.classList.add('todo-title');
+    titleInput.placeholder = 'To Do Title';
+    titleInput.type = 'text';
+    titleInput.required;
+    toDoForm.append(titleInput);
+
+    const descriptionInput = document.createElement('textarea');
+    descriptionInput.classList.add('todo-description');
+    descriptionInput.placeholder = 'Description (not required)';
+    toDoForm.append(descriptionInput);
+
+    const dueDateInput = document.createElement('input');
+    dueDateInput.classList.add('todo-duedate');
+    dueDateInput.type = 'date';
+    dueDateInput.required;
+    toDoForm.append(dueDateInput);
+
+    const prioritySelect = document.createElement('select');
+    const optionDefault = document.createElement('option');
+    optionDefault.textContent = '--Priority';
+    optionDefault.value = 'none';
+    prioritySelect.append(optionDefault);
+
+    const optionLow = document.createElement('option');
+    optionLow.textContent = 'Low Priority';
+    optionLow.value = 'low';
+    prioritySelect.append(optionLow);
+
+    const optionMedium = document.createElement('option');
+    optionMedium.textContent = 'Medium Priority';
+    optionMedium.value = 'medium';
+    prioritySelect.append(optionMedium);
+
+    const optionHigh = document.createElement('option');
+    optionHigh.textContent = 'High Priority';
+    optionHigh.value = 'high';
+    prioritySelect.append(optionHigh);
+    toDoForm.append(prioritySelect);
+
+    const addToDoBtn = document.createElement('button');
+    addToDoBtn.textContent = 'Add';
+    addToDoBtn.id = 'todo-add-btn';
+    addToDoBtn.type = 'button';
+    toDoForm.append(addToDoBtn);
+
+    const cancelToDoBtn = document.createElement('button');
+    cancelToDoBtn.textContent = 'Cancel';
+    cancelToDoBtn.id = 'todo-cancel-btn';
+    cancelToDoBtn.type = 'button';
+    toDoForm.append(cancelToDoBtn);
+
+    return toDoForm;
 }
 
 const renderSavedToDos = (projectName) => {
