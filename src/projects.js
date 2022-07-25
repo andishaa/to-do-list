@@ -33,6 +33,10 @@ const CreateNewProject = (name) => {
     return project;
 }
 
+const getProjectObj = (projectName) => {
+    return PROJECTS.find(project => project.name === projectName);
+}
+
 console.log('current projects: ', PROJECTS);
 
-export { PROJECTS, CreateNewProject };
+export { PROJECTS, CreateNewProject, getProjectObj };

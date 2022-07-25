@@ -1,11 +1,16 @@
 import { projectForm, renderProjectsList, renderSavedToDos } from "./DOM";
-import { CreateNewProject } from "./projects";
+import { CreateNewProject, getProjectObj } from "./projects";
+import { ToDoFactory } from "./todos";
+
+let currentProject = 'Inbox';
 
 function setUpNavBtns() {
     const navListItems = document.querySelectorAll('.nav li');
     navListItems.forEach((navElement) => {
         navElement.addEventListener('click', (e) => {
             const projectName = e.target.textContent;
+            currentProject = projectName;
+            console.log('current project: ', currentProject);
             renderSavedToDos(projectName);
         });
     });
@@ -17,11 +22,11 @@ function setUpAddProjectBtn() {
     addProjectBtn.addEventListener('click', () => {
         toggleAddProjectBtn(); // when the button is clicked hide it and show up the form
         projectsTitle.after(projectForm()); //add the form below the Projects h1 tag
-        setUpFormBtns();
+        setUpProjectFormBtns();
     });
 }
 
-function setUpFormBtns() {
+function setUpProjectFormBtns() {
     const addBtn = document.getElementById('form-add-btn');
     const cancelBtn = document.getElementById('form-cancel-btn');
     const projectForm = document.querySelector('.project-form');
@@ -46,9 +51,60 @@ const toggleAddProjectBtn = () => {
     addProjectBtn.classList.toggle('hidden');
 }
 
+const setUpAddNewToDoBtn = () => {
+    const toDoFormBtn = document.getElementById('todo-form-btn');
+    toDoFormBtn.addEventListener('click', () => {
+        toggleToDoFormBtn();
+        toggleToDoForm();
+    });
+}
+
+const setUpAddToDoFormBtns = () => {
+    const toDoForm = document.querySelector('.todo-form');
+    const toDoAddBtn = document.getElementById('todo-add-btn');
+    const toDoCancelBtn = document.getElementById('todo-cancel-btn');
+    const toDoTitleInput = document.querySelector('.todo-title');
+    const toDoDescriptionInput = document.querySelector('.todo-description');
+    const toDoDueDateInput = document.querySelector('.todo-duedate');
+    const toDoPriorityInput = document.getElementById('priority-input');
+
+    let dueDate = '';
+    toDoDueDateInput.addEventListener('change', () => {
+        dueDate = toDoDueDateInput.value;
+    });
+
+    toDoAddBtn.addEventListener('click', () => {
+        let newToDo = ToDoFactory(toDoTitleInput.value, toDoDescriptionInput.value, dueDate, toDoPriorityInput.value);
+        let project = getProjectObj(currentProject);
+        project.savedToDos.push(newToDo);
+        toDoForm.reset(); // when the new To Do is added, clear all values from the form
+        toggleToDoForm();
+        toggleToDoFormBtn();
+        renderSavedToDos(currentProject); // render the list of todos when a new one is added
+    });
+
+    toDoCancelBtn.addEventListener('click', () => {
+        toDoForm.reset(); // clear if any values were entered in the form
+        toggleToDoForm();
+        toggleToDoFormBtn();
+    });
+}
+
+const toggleToDoFormBtn = () => {
+    const toDoFormBtn = document.getElementById('todo-form-btn');
+    toDoFormBtn.classList.toggle('hidden');
+}
+
+const toggleToDoForm = () => {
+    const toDoForm = document.querySelector('.todo-form');
+    toDoForm.classList.toggle('hidden');
+}
+
 const initUI = () => {
     setUpAddProjectBtn();
     setUpNavBtns();
+    setUpAddNewToDoBtn();
+    setUpAddToDoFormBtns();
 }
 
 export { initUI }

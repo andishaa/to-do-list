@@ -144,6 +144,7 @@ const addNewToDoForm = () => {
     toDoForm.append(dueDateInput);
 
     const prioritySelect = document.createElement('select');
+    prioritySelect.id = 'priority-input';
     const optionDefault = document.createElement('option');
     optionDefault.textContent = '--Priority';
     optionDefault.value = 'none';
