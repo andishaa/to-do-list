@@ -1,4 +1,5 @@
 import { PROJECTS } from "./projects";
+import { setUpDeleteToDoBtns } from "./user-interface";
 
 const body = document.body;
 
@@ -222,6 +223,8 @@ const renderSavedToDos = (projectName) => {
 
             projectsContainer.append(toDoCardDiv);
         });
+
+        setUpDeleteToDoBtns();
     });
 
 }
