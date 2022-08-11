@@ -26,10 +26,11 @@ function setUpNavBtns() {
 
 function setUpAddProjectBtn() {
     const addProjectBtn = document.getElementById('add-project-btn');
-    const projectsTitle = document.querySelector('.projects-nav h1');
+    const projectsNav = document.querySelector('.projects-nav')
+
     addProjectBtn.addEventListener('click', () => {
         toggleAddProjectBtn(); // when the button is clicked hide it and show up the form
-        projectsTitle.after(projectForm()); //add the form below the Projects h1 tag
+        projectsNav.append(projectForm()); //add the form below the Projects list
         setUpProjectFormBtns();
     });
 }

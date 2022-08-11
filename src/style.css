@@ -63,7 +63,7 @@ button {
     color: var(--color-links);
 }
 
-/*<--- NAVIGATION SIDE-BAR --->*/
+/*<--- NAVIGATION --->*/
 .nav {
     grid-area: mnav;
     overflow-wrap: break-word;

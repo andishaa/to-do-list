@@ -53,14 +53,14 @@ const nav = () => {
     projectsSectionTitle.textContent = 'Projects';
     projectsSection.append(projectsSectionTitle);
 
+    const projectsUl = document.createElement('ul');
+    projectsUl.classList.add('projects-list');
+    projectsSection.append(projectsUl);
+
     const addProjectBtn = document.createElement('button');
     addProjectBtn.id = 'add-project-btn';
     addProjectBtn.textContent = 'Add project';
     projectsSection.append(addProjectBtn);
-
-    const projectsUl = document.createElement('ul');
-    projectsUl.classList.add('projects-list');
-    projectsSection.append(projectsUl);
 
     mainSection.append(mainUl);
     nav.append(mainSection, projectsSection);
