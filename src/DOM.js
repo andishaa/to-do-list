@@ -81,11 +81,13 @@ const projectForm = () => {
     const addBtn = document.createElement('button');
     addBtn.textContent = 'Add';
     addBtn.id = 'form-add-btn';
+    addBtn.classList.add('green-btn');
     addBtn.type = 'button';
     projectForm.appendChild(addBtn);
 
     const cancelBtn = document.createElement('button');
     cancelBtn.id = 'form-cancel-btn';
+    cancelBtn.classList.add('red-btn');
     cancelBtn.textContent = 'Cancel';
     cancelBtn.type = 'button';
     projectForm.appendChild(cancelBtn);
@@ -172,17 +174,23 @@ const addNewToDoForm = () => {
     prioritySelect.append(optionHigh);
     toDoForm.append(prioritySelect);
 
+    const buttonsSpan = document.createElement('span');
+    buttonsSpan.classList.add('add-cancel-todo-btns');
+
     const addToDoBtn = document.createElement('button');
     addToDoBtn.textContent = 'Add';
     addToDoBtn.id = 'todo-add-btn';
+    addToDoBtn.classList.add('green-btn');
     addToDoBtn.type = 'button';
-    toDoForm.append(addToDoBtn);
+    buttonsSpan.append(addToDoBtn);
 
     const cancelToDoBtn = document.createElement('button');
     cancelToDoBtn.textContent = 'Cancel';
     cancelToDoBtn.id = 'todo-cancel-btn';
+    cancelToDoBtn.classList.add('red-btn');
     cancelToDoBtn.type = 'button';
-    toDoForm.append(cancelToDoBtn);
+    buttonsSpan.append(cancelToDoBtn);
+    toDoForm.append(buttonsSpan);
 
     return toDoForm;
 }
