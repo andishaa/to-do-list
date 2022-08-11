@@ -16,8 +16,13 @@ const header = () => {
     header.classList.add('header');
     const h1 = document.createElement('h1');
     h1.textContent = 'Organize your life';
-
     header.appendChild(h1);
+
+    //add a button for mobile screens to toggle the navigation bar
+    const toggleNavBtn = document.createElement('button');
+    toggleNavBtn.classList.add('toggle-nav-btn');
+    toggleNavBtn.textContent = "☰";
+    header.appendChild(toggleNavBtn);
 
     return header;
 }
@@ -189,7 +194,7 @@ const renderSavedToDos = (projectName) => {
 
     PROJECTS.forEach((project) => {
         if (project.name !== projectName) {
-            return;
+            return; // don't render ToDos if it's not inside the correct project
         }
 
         project.savedToDos.forEach((toDo) => {
