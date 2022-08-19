@@ -207,7 +207,7 @@ const renderSavedToDos = (projectName) => {
 
         project.savedToDos.forEach((toDo) => {
             const toDoCardDiv = document.createElement('div');
-            toDoCardDiv.classList.add('todo-card');
+            toDoCardDiv.classList.add('todo-card', toDo.priority); // add the priority of the ToDo as a class to be able to change it's styles
             toDoCardDiv.id = toDo.ID;
 
             const cardTitleDiv = document.createElement('div');
