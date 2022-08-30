@@ -2,7 +2,7 @@ const PROJECTS = [];
 
 const CreateNewProject = (name) => {
     const project = {};
-    project.name = name;
+    project.name = name.trim(); // remove if any extra empty spaces
     project.savedToDos = [];
 
     //if the user tryes to Add a new project without inputing anything in the form input field don't do anything
