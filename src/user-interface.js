@@ -115,7 +115,7 @@ const setUpDeleteToDoBtns = () => {
     deleteBtns.forEach((btn) => {
         btn.addEventListener('click', (e) => {
             let savedToDos = getProjectObj(currentProject);
-            const toDoId = e.target.parentElement.id; // our parent element <div class="todo-card"> is by default created with the corresponding ToDo ID
+            const toDoId = e.target.parentElement.parentElement.id; // our parent element <div class="todo-card"> is by default created with the corresponding ToDo ID
             savedToDos.deleteToDo(toDoId);
             renderSavedToDos(currentProject);
         });
