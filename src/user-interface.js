@@ -40,14 +40,23 @@ function setUpProjectFormBtns() {
     const cancelBtn = document.getElementById('form-cancel-btn');
     const projectForm = document.querySelector('.project-form');
     const formInput = document.querySelector('.form-input');
+
     if (projectForm !== null) {
         addBtn.addEventListener('click', () => {
+            if (formInput.value.trim() === '') {
+                formInput.setAttribute('style', 'border: 1px solid red');
+                formInput.value = '';
+                formInput.placeholder = "Name can't be empty";
+                return;
+            }
+
             CreateNewProject(formInput.value);
             renderProjectsList();
             setUpNavBtns(); // after rendering the projects list and a new list items pops in the dom add an event listener again
             projectForm.remove();
             toggleAddProjectBtn();
         });
+
         cancelBtn.addEventListener('click', () => {
             projectForm.remove();
             toggleAddProjectBtn();
