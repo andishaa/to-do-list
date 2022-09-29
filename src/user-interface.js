@@ -1,5 +1,5 @@
 import { projectForm, renderProjectsList, renderSavedToDos } from "./DOM";
-import { CreateNewProject, getProjectObj } from "./projects";
+import { CreateNewProject, getProjectObj, checkDuplicateName } from "./projects";
 import { ToDoFactory } from "./todos";
 
 let currentProject = 'Inbox';
@@ -47,6 +47,12 @@ function setUpProjectFormBtns() {
                 formInput.setAttribute('style', 'border: 1px solid red');
                 formInput.value = '';
                 formInput.placeholder = "Name can't be empty";
+                return;
+            }
+
+            if (checkDuplicateName(formInput.value) === true) {
+                formInput.value = '';
+                alert('Project name already exists.')
                 return;
             }
 

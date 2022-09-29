@@ -37,6 +37,11 @@ const getProjectObj = (projectName) => {
     return PROJECTS.find(project => project.name === projectName);
 }
 
+function checkDuplicateName(projectName) {
+    const isDuplicate = PROJECTS.find((project) => project.name === projectName) !== undefined;
+    return isDuplicate; // true or false
+}
+
 console.log('current projects: ', PROJECTS);
 
-export { PROJECTS, CreateNewProject, getProjectObj };
+export { PROJECTS, CreateNewProject, getProjectObj, checkDuplicateName };
