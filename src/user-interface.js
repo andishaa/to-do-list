@@ -102,11 +102,11 @@ const setUpAddToDoFormBtns = () => {
         //always add by default all new todos to the Inbox
         if (currentProject !== 'Inbox') { //prevent duplicate adding a todo if we are already inside Inbox
             const inbox = getProjectObj('Inbox');
-            inbox.savedToDos.push(newToDo);
+            inbox.addToDo(newToDo);
         }
 
         let project = getProjectObj(currentProject);
-        project.savedToDos.push(newToDo);
+        project.addToDo(newToDo);
         toDoForm.reset(); // when the new To Do is added, clear all values from the form
         toggleToDoForm();
         toggleToDoFormBtn();
