@@ -2,7 +2,7 @@ const PROJECTS = [];
 
 const CreateNewProject = (name) => {
     const project = {};
-    project.name = name.trim(); // remove if any extra empty spaces
+    project.name = capitalizeFirstLetter(name.trim()); // by default always make the first letter Capital and remove if any extra empty spaces were entered
     project.savedToDos = [];
 
     //if the user tryes to Add a new project without inputing anything in the form input field don't do anything
@@ -33,12 +33,25 @@ const CreateNewProject = (name) => {
     return project;
 }
 
+function capitalizeFirstLetter(word) {
+    const firstLetter = word.charAt(0)
+    const firstLetterCap = firstLetter.toUpperCase();
+    const remainingLetters = word.slice(1);
+    const capitalizedWord = firstLetterCap + remainingLetters;
+    return capitalizedWord;
+}
+
 const getProjectObj = (projectName) => {
     return PROJECTS.find(project => project.name === projectName);
 }
 
+function getToDoObj(projectName, toDoID) { // tova shte mi trqbva kato iskam da promenqm veche zapazenite ToDo-ta
+    const currentProject = getProjectObj(projectName);
+    return currentProject.savedToDos.find(toDo => toDo.ID === toDoID);
+}
+
 function checkDuplicateName(projectName) {
-    const isDuplicate = PROJECTS.find((project) => project.name === projectName) !== undefined;
+    const isDuplicate = PROJECTS.find((project) => project.name.toLowerCase() === projectName.toLowerCase()) !== undefined;
     return isDuplicate; // true or false
 }
 
