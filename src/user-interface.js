@@ -42,6 +42,11 @@ function setUpProjectFormBtns() {
     const formInput = document.querySelector('.form-input');
 
     if (projectForm !== null) {
+        //prevent the Enter key being pressed
+        projectForm.addEventListener('submit', event => {
+            event.preventDefault();
+        });
+
         addBtn.addEventListener('click', () => {
             if (formInput.value.trim() === '') {
                 formInput.setAttribute('style', 'border: 1px solid red');
