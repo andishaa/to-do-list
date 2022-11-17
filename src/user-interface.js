@@ -48,11 +48,8 @@ function setUpProjectFormBtns() {
         });
 
         addBtn.addEventListener('click', () => {
-            if (formInput.value.trim() === '') {
-                formInput.setAttribute('style', 'border: 1px solid red');
-                formInput.value = '';
-                formInput.placeholder = "Name can't be empty";
-                return;
+            if (checkInputEmpty(formInput) === true) {
+                return;                
             }
 
             if (checkDuplicateName(formInput.value) === true) {
@@ -72,6 +69,15 @@ function setUpProjectFormBtns() {
             projectForm.remove();
             toggleAddProjectBtn();
         });
+    }
+}
+
+function checkInputEmpty(inputFieldQuery) {
+    if (inputFieldQuery.value.trim() === '') {
+        inputFieldQuery.setAttribute('style', 'border: 1px solid red');
+        inputFieldQuery.value = '';
+        inputFieldQuery.placeholder = "Name can't be empty";
+        return true;
     }
 }
 
