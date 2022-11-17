@@ -76,7 +76,7 @@ function checkInputEmpty(inputFieldQuery) {
     if (inputFieldQuery.value.trim() === '') {
         inputFieldQuery.setAttribute('style', 'border: 1px solid red');
         inputFieldQuery.value = '';
-        inputFieldQuery.placeholder = "Name can't be empty";
+        inputFieldQuery.placeholder = "Field can't be empty";
         return true;
     }
 }
