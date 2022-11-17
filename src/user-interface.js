@@ -97,6 +97,11 @@ const setUpAddToDoFormBtns = () => {
     const toDoDueDateInput = document.querySelector('.todo-duedate');
     const toDoPriorityInput = document.getElementById('priority-input');
 
+    // prevent the Enter key from being able to submit the form (otherwise it refreshes the hole page)
+    toDoForm.addEventListener('submit', event => {
+        event.preventDefault();
+    });
+
     let dueDate = '';
     toDoDueDateInput.addEventListener('change', () => {
         dueDate = toDoDueDateInput.value;
