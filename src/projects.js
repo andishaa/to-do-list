@@ -27,7 +27,9 @@ const CreateNewProject = (name) => {
 
     project.deleteToDo = (toDoID) => {
         const toDoToDelete = project.savedToDos.findIndex((toDo) => toDo.ID === toDoID);
-        project.savedToDos.splice(toDoToDelete, 1);
+        if (toDoToDelete !== -1) {
+            project.savedToDos.splice(toDoToDelete, 1);
+        }
     }
 
     return project;
@@ -45,6 +47,12 @@ const getProjectObj = (projectName) => {
     return PROJECTS.find(project => project.name === projectName);
 }
 
+function deleteAllToDos(toDoID) {
+    PROJECTS.forEach(project => {
+        project.deleteToDo(toDoID);
+    });
+}
+
 function getToDoObj(projectName, toDoID) { // tova shte mi trqbva kato iskam da promenqm veche zapazenite ToDo-ta
     const currentProject = getProjectObj(projectName);
     return currentProject.savedToDos.find(toDo => toDo.ID === toDoID);
@@ -57,4 +65,4 @@ function checkDuplicateName(projectName) {
 
 console.log('current projects: ', PROJECTS);
 
-export { PROJECTS, CreateNewProject, getProjectObj, checkDuplicateName };
+export { PROJECTS, CreateNewProject, getProjectObj, checkDuplicateName, deleteAllToDos };

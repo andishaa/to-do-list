@@ -1,5 +1,5 @@
 import { projectForm, renderProjectsList, renderSavedToDos } from "./DOM";
-import { CreateNewProject, getProjectObj, checkDuplicateName } from "./projects";
+import { CreateNewProject, getProjectObj, checkDuplicateName, deleteAllToDos } from "./projects";
 import { ToDoFactory } from "./todos";
 
 let currentProject = 'Inbox';
@@ -49,7 +49,7 @@ function setUpProjectFormBtns() {
 
         addBtn.addEventListener('click', () => {
             if (checkInputEmpty(formInput) === true) {
-                return;                
+                return;
             }
 
             if (checkDuplicateName(formInput.value) === true) {
@@ -151,9 +151,8 @@ const setUpDeleteToDoBtns = () => {
 
     deleteBtns.forEach((btn) => {
         btn.addEventListener('click', (e) => {
-            let savedToDos = getProjectObj(currentProject);
             const toDoId = e.target.parentElement.parentElement.id; // our parent element <div class="todo-card"> is by default created with the corresponding ToDo ID
-            savedToDos.deleteToDo(toDoId);
+            deleteAllToDos(toDoId);
             renderSavedToDos(currentProject);
         });
     });
