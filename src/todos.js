@@ -1,5 +1,9 @@
 const ToDoFactory = (title, desctiption, dueDate, priority) => {
     const toDo = {};
+    //if the user inputs empty Title, don't do anything
+    if (title === '') {
+        return;
+    }
 
     toDo.ID = crypto.randomUUID();
     toDo.title = title;
