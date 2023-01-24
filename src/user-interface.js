@@ -151,9 +151,25 @@ const setUpDeleteToDoBtns = () => {
 
     deleteBtns.forEach((btn) => {
         btn.addEventListener('click', (e) => {
-            const toDoId = e.target.parentElement.parentElement.id; // our parent element <div class="todo-card"> is by default created with the corresponding ToDo ID
+            const toDoId = e.target.parentElement.parentElement.parentElement.id; // our parent element <div class="todo-card"> is by default created with the corresponding ToDo ID
             deleteAllToDos(toDoId);
             renderSavedToDos(currentProject);
+        });
+    });
+}
+
+function setUpShowDetailsBtns() {
+    const showDetailsBtns = document.querySelectorAll('.card-btns .show-more-btn');
+    showDetailsBtns.forEach((btn) => {
+        btn.addEventListener('click', e => {
+            const toDoDetailsEl = e.target.parentElement.parentElement.parentElement.lastChild;
+            const toDoDetailsElAttr = toDoDetailsEl.getAttribute('style');
+            if (toDoDetailsElAttr === 'display: none') {
+                toDoDetailsEl.style.display = null;
+            } else {
+                toDoDetailsEl.setAttribute('style', 'display: none');
+            }
+
         });
     });
 }
@@ -166,4 +182,4 @@ const initUI = () => {
     setUpAddToDoFormBtns();
 }
 
-export { initUI, setUpDeleteToDoBtns }
+export { initUI, setUpDeleteToDoBtns, setUpShowDetailsBtns }

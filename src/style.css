@@ -46,10 +46,6 @@ body {
     left: -9999px;
 }
 
-button {
-    -webkit-appearance: button;
-}
-
 .green-btn {
     background-color: var(--color-light-green);
     border: 1px solid #9adf9a;
@@ -192,7 +188,7 @@ button {
     width: 100%;
 }
 
-.todo-card {
+.todo-main {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -205,6 +201,19 @@ button {
     width: 100%;
     overflow-wrap: break-word;
     text-align: center;
+}
+
+.card-btns {
+    display: flex;
+    gap: 0.6rem;
+}
+
+.todo-details {
+    padding: 0.6rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.6rem;
+    flex-wrap: wrap;
 }
 
 /* Add new to-do form and buttons*/
@@ -286,7 +295,8 @@ textarea {
     }
 
     .card-title {
-        max-width: 9rem;
+        flex-basis: 9rem;
+        flex-grow: 1;
         overflow-wrap: break-word;
         text-align: left;
     }
