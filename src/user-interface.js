@@ -114,6 +114,11 @@ const setUpAddToDoFormBtns = () => {
     });
 
     toDoAddBtn.addEventListener('click', () => {
+        // if the Title input of the form is empty, prevent the form from being submitted
+        if (toDoTitleInput.value.trim() === '') {
+            return;
+        }
+
         let newToDo = ToDoFactory(toDoTitleInput.value, toDoDescriptionInput.value, dueDate, toDoPriorityInput.value);
         //always add by default all new todos to the Inbox
         if (currentProject !== 'Inbox') { //prevent duplicate adding a todo if we are already inside Inbox
