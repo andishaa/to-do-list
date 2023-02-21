@@ -101,6 +101,10 @@ const renderProjectsList = () => {
     removeChilds(projectsListULelement); //remove previously displayed <li> project names on each render (otherwise they start duplicating on every new project added)
 
     PROJECTS.forEach((project) => {
+        //do not include the created by default Porjects: Inbox Today and This Week because they are already added in the nav() menu by default
+        if (project.name === 'Inbox' || project.name === 'Today' || project.name === 'This Week') {
+            return;
+        }
         const listItem = document.createElement('li');
         listItem.classList.add('project-name');
         listItem.textContent = project.name;

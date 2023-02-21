@@ -35,6 +35,11 @@ const CreateNewProject = (name) => {
     return project;
 }
 
+//create the needed projects that will store all To Do's by the given criteria e.g. Inbox, Today, This Week.
+CreateNewProject('Inbox');
+CreateNewProject('Today');
+CreateNewProject('This Week');
+
 function capitalizeFirstLetter(word) {
     const firstLetter = word.charAt(0)
     const firstLetterCap = firstLetter.toUpperCase();
