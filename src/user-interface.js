@@ -119,6 +119,11 @@ const setUpAddToDoFormBtns = () => {
             return;
         }
 
+        // if no priority is selected by the user, add it to low priority by default
+        if (toDoPriorityInput.value === 'none') {
+            toDoPriorityInput.value = 'low';
+        }
+
         let newToDo = ToDoFactory(toDoTitleInput.value, toDoDescriptionInput.value, dueDate, toDoPriorityInput.value);
         //always add by default all new todos to the Inbox
         if (currentProject !== 'Inbox') { //prevent duplicate adding a todo if we are already inside Inbox
