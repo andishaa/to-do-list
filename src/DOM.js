@@ -36,6 +36,7 @@ const nav = () => {
 
     const mainUl = document.createElement('ul');
     const inboxLi = document.createElement('li');
+    inboxLi.classList.add('nav-active');
     inboxLi.textContent = 'Inbox';
     mainUl.append(inboxLi);
 

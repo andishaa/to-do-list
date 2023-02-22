@@ -16,12 +16,21 @@ function setUpNavBtns() {
     const navListItems = document.querySelectorAll('.nav li');
     navListItems.forEach((navElement) => {
         navElement.addEventListener('click', (e) => {
+            removeNavActiveClass();
+            e.target.classList.add('nav-active');
             const projectName = e.target.textContent;
             currentProject = projectName;
             console.log('current project: ', currentProject);
             renderSavedToDos(projectName);
         });
     });
+}
+
+function removeNavActiveClass() {
+    let elWithActiveClass = document.getElementsByClassName('nav-active');
+    while (elWithActiveClass.length) {
+        elWithActiveClass[0].classList.remove('nav-active');
+    };
 }
 
 function setUpAddProjectBtn() {
