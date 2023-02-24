@@ -124,7 +124,7 @@ const setUpAddToDoFormBtns = () => {
 
     toDoAddBtn.addEventListener('click', () => {
         // if the Title input of the form is empty, prevent the form from being submitted
-        if (toDoTitleInput.value.trim() === '') {
+        if (checkInputEmpty(toDoTitleInput) === true) {
             return;
         }
 
