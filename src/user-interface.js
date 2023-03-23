@@ -117,7 +117,7 @@ const setUpAddToDoFormBtns = () => {
         event.preventDefault();
     });
 
-    let dueDate = '';
+    let dueDate = toDoDueDateInput.value;
     toDoDueDateInput.addEventListener('change', () => {
         dueDate = toDoDueDateInput.value;
     });
@@ -142,7 +142,10 @@ const setUpAddToDoFormBtns = () => {
 
         let project = getProjectObj(currentProject);
         project.addToDo(newToDo);
-        toDoForm.reset(); // when the new To Do is added, clear all values from the form
+        toDoForm.reset();
+        //because we reset the form, we have to set the default form input date and dueDate to Today again
+        toDoDueDateInput.valueAsDate = new Date(); 
+        dueDate = new Date();
         toggleToDoForm();
         toggleToDoFormBtn();
         renderSavedToDos(currentProject); // render the list of todos when a new one is added

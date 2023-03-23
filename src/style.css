@@ -116,7 +116,7 @@ body {
 }
 
 .nav-active {
-    background: #C57642;
+    background: var(--color-main);
     font-weight: bold;
     border-radius: 0.3rem;
 }

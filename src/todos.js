@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 const ToDoFactory = (title, desctiption, dueDate, priority) => {
     const toDo = {};
     //if the user inputs empty Title, don't do anything
@@ -8,7 +10,7 @@ const ToDoFactory = (title, desctiption, dueDate, priority) => {
     toDo.ID = crypto.randomUUID();
     toDo.title = title;
     toDo.desctiption = desctiption;
-    toDo.dueDate = dueDate;
+    toDo.dueDate = format(new Date(dueDate), 'MM-dd-yyyy');
     toDo.priority = priority;
 
     toDo.editTitle = (newTitle) => {

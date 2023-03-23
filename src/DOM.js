@@ -153,6 +153,7 @@ const addNewToDoForm = () => {
     const dueDateInput = document.createElement('input');
     dueDateInput.classList.add('todo-duedate');
     dueDateInput.type = 'date';
+    dueDateInput.valueAsDate = new Date(); // by default set the date to Today's day
     dueDateInput.required;
     toDoForm.append(dueDateInput);
 
