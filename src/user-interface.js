@@ -21,6 +21,9 @@ function setUpNavBtns() {
             const projectName = e.target.textContent;
             currentProject = projectName;
             console.log('current project: ', currentProject);
+            if (currentProject === 'Today') {
+                filterToDosDueToday();
+            }
             renderSavedToDos(projectName);
         });
     });
@@ -148,7 +151,6 @@ const setUpAddToDoFormBtns = () => {
         dueDate = new Date();
         toggleToDoForm();
         toggleToDoFormBtn();
-        filterToDosDueToday(); //when adding a new ToDo, filter all Project's savedToDos and add it to Today if needed
         renderSavedToDos(currentProject); // render the list of todos when a new one is added
     });
 
