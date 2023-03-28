@@ -1,5 +1,5 @@
 import { projectForm, renderProjectsList, renderSavedToDos } from "./DOM";
-import { CreateNewProject, getProjectObj, checkDuplicateName, deleteAllToDos } from "./projects";
+import { CreateNewProject, getProjectObj, checkDuplicateName, deleteAllToDos, filterToDosDueToday } from "./projects";
 import { ToDoFactory } from "./todos";
 
 let currentProject = 'Inbox';
@@ -148,6 +148,7 @@ const setUpAddToDoFormBtns = () => {
         dueDate = new Date();
         toggleToDoForm();
         toggleToDoFormBtn();
+        filterToDosDueToday(); //when adding a new ToDo, filter all Project's savedToDos and add it to Today if needed
         renderSavedToDos(currentProject); // render the list of todos when a new one is added
     });
 

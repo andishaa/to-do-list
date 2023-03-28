@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 const PROJECTS = [];
 
 const CreateNewProject = (name) => {
@@ -31,6 +33,8 @@ const CreateNewProject = (name) => {
             project.savedToDos.splice(toDoToDelete, 1);
         }
     }
+
+    project.clearSavedToDos = () => { project.savedToDos = []; }
 
     return project;
 }
@@ -68,6 +72,27 @@ function checkDuplicateName(projectName) {
     return isDuplicate; // true or false
 }
 
+function filterToDosDueToday() {
+    const TodayProjectObj = getProjectObj('Today');
+    const todaysDate = format(new Date(), 'MM-dd-yyyy'); //need to format the date, otherwise can't compare the values
+
+    // first we clear all savedToDos, if in previous session we had any saved
+    TodayProjectObj.clearSavedToDos();
+
+    PROJECTS.forEach(Project => {
+        // don't check in Today and This week
+        if (Project.name === 'Today' || Project.name === 'This Week') {
+            return;
+        }
+
+        Project.savedToDos.forEach(ToDo => {
+            if (ToDo.dueDate === todaysDate) {
+                TodayProjectObj.addToDo(ToDo);
+            }
+        });
+    });
+}
+
 console.log('current projects: ', PROJECTS);
 
-export { PROJECTS, CreateNewProject, getProjectObj, checkDuplicateName, deleteAllToDos };
+export { PROJECTS, CreateNewProject, getProjectObj, checkDuplicateName, deleteAllToDos, filterToDosDueToday };
