@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, parse, startOfWeek } from "date-fns";
 
 const PROJECTS = [];
 
@@ -93,6 +93,27 @@ function filterToDosDueToday() {
     });
 }
 
+function filterToDosDueThisWeek() {
+    const ThisWeekProjectObj = getProjectObj('This Week');
+
+    ThisWeekProjectObj.clearSavedToDos();
+
+    PROJECTS.forEach(Project => {
+        // don't check in Today and This week
+        if (Project.name === 'This Week' || Project.name === 'Today') {
+            return;
+        }
+        Project.savedToDos.forEach(ToDo => {
+            const TODOdueDate = ToDo.dueDate;
+            // logic to find if the ToDo dueDate is This Week
+            // https://github.com/date-fns/date-fns/discussions/3205#discussioncomment-3815471
+            if (startOfWeek(new Date()).getTime() === startOfWeek(parse(TODOdueDate, 'MM-dd-yyyy', new Date())).getTime()) {
+                ThisWeekProjectObj.addToDo(ToDo);
+            }
+        });
+    });
+}
+
 console.log('current projects: ', PROJECTS);
 
-export { PROJECTS, CreateNewProject, getProjectObj, checkDuplicateName, deleteAllToDos, filterToDosDueToday };
+export { PROJECTS, CreateNewProject, getProjectObj, checkDuplicateName, deleteAllToDos, filterToDosDueToday, filterToDosDueThisWeek };

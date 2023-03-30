@@ -1,5 +1,5 @@
 import { projectForm, renderProjectsList, renderSavedToDos } from "./DOM";
-import { CreateNewProject, getProjectObj, checkDuplicateName, deleteAllToDos, filterToDosDueToday } from "./projects";
+import { CreateNewProject, getProjectObj, checkDuplicateName, deleteAllToDos, filterToDosDueToday, filterToDosDueThisWeek } from "./projects";
 import { ToDoFactory } from "./todos";
 
 let currentProject = 'Inbox';
@@ -23,6 +23,9 @@ function setUpNavBtns() {
             console.log('current project: ', currentProject);
             if (currentProject === 'Today') {
                 filterToDosDueToday();
+            }
+            if (currentProject === 'This Week') {
+                filterToDosDueThisWeek();
             }
             renderSavedToDos(projectName);
         });
