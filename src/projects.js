@@ -3,16 +3,15 @@ import { format, parse, startOfWeek } from "date-fns";
 const PROJECTS = [];
 
 const CreateNewProject = (name) => {
-    const project = {};
-    project.name = capitalizeFirstLetter(name.trim()); // by default always make the first letter Capital and remove if any extra empty spaces were entered
-    project.savedToDos = [];
-
-    //if the user tryes to Add a new project without inputing anything in the form input field don't do anything
-    if (project.name === '') {
+    //if the user tries to Add a new project without inputing anything in the form input field don't do anything
+    if (name.trim() === '') {
         return;
     }
 
-    PROJECTS.push(project);
+    const project = {};
+    let savedToDos = [];
+
+    project.name = capitalizeFirstLetter(name.trim()); // by default always make the first letter Capital and remove if any extra empty spaces were entered
 
     project.editName = (newName) => {
         project.name = newName;
@@ -24,17 +23,20 @@ const CreateNewProject = (name) => {
     }
 
     project.addToDo = (toDo) => {
-        project.savedToDos.push(toDo);
+        savedToDos.push(toDo);
     }
 
     project.deleteToDo = (toDoID) => {
-        const toDoToDelete = project.savedToDos.findIndex((toDo) => toDo.ID === toDoID);
+        const toDoToDelete = savedToDos.findIndex((toDo) => toDo.ID === toDoID);
         if (toDoToDelete !== -1) {
-            project.savedToDos.splice(toDoToDelete, 1);
+            savedToDos.splice(toDoToDelete, 1);
         }
     }
 
-    project.clearSavedToDos = () => { project.savedToDos = []; }
+    project.clearSavedToDos = () => { savedToDos = []; }
+    project.getSavedTodos = () => { return savedToDos };
+
+    PROJECTS.push(project);
 
     return project;
 }
@@ -74,43 +76,35 @@ function checkDuplicateName(projectName) {
 
 function filterToDosDueToday() {
     const TodayProjectObj = getProjectObj('Today');
+    const InboxProjectObj = getProjectObj('Inbox');
+    const InboxSavedTodos = InboxProjectObj.getSavedTodos();
     const todaysDate = format(new Date(), 'MM-dd-yyyy'); //need to format the date, otherwise can't compare the values
 
     // first we clear all savedToDos, if in previous session we had any saved
     TodayProjectObj.clearSavedToDos();
 
-    PROJECTS.forEach(Project => {
-        // don't check in Today and This week
-        if (Project.name === 'Today' || Project.name === 'This Week') {
-            return;
+    //by default all our ToDOs are saved inside Inbox
+    InboxSavedTodos.forEach(ToDo => {
+        if (ToDo.dueDate === todaysDate) {
+            TodayProjectObj.addToDo(ToDo);
         }
-
-        Project.savedToDos.forEach(ToDo => {
-            if (ToDo.dueDate === todaysDate) {
-                TodayProjectObj.addToDo(ToDo);
-            }
-        });
     });
 }
 
 function filterToDosDueThisWeek() {
     const ThisWeekProjectObj = getProjectObj('This Week');
+    const InobxProjectObj = getProjectObj('Inbox');
+    const InboxSavedTodos = InobxProjectObj.getSavedTodos();
 
     ThisWeekProjectObj.clearSavedToDos();
 
-    PROJECTS.forEach(Project => {
-        // don't check in Today and This week
-        if (Project.name === 'This Week' || Project.name === 'Today') {
-            return;
+    InboxSavedTodos.forEach(ToDo => {
+        const TODOdueDate = ToDo.dueDate;
+        // logic to find if the ToDo dueDate is This Week
+        // https://github.com/date-fns/date-fns/discussions/3205#discussioncomment-3815471
+        if (startOfWeek(new Date()).getTime() === startOfWeek(parse(TODOdueDate, 'MM-dd-yyyy', new Date())).getTime()) {
+            ThisWeekProjectObj.addToDo(ToDo);
         }
-        Project.savedToDos.forEach(ToDo => {
-            const TODOdueDate = ToDo.dueDate;
-            // logic to find if the ToDo dueDate is This Week
-            // https://github.com/date-fns/date-fns/discussions/3205#discussioncomment-3815471
-            if (startOfWeek(new Date()).getTime() === startOfWeek(parse(TODOdueDate, 'MM-dd-yyyy', new Date())).getTime()) {
-                ThisWeekProjectObj.addToDo(ToDo);
-            }
-        });
     });
 }
 

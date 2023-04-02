@@ -204,10 +204,11 @@ const addNewToDoForm = () => {
 const renderSavedToDos = (projectName) => {
     const projectsContainer = document.querySelector('.todos-container');
     const Project = projectsModule.getProjectObj(projectName);
+    const savedTodos = Project.getSavedTodos();
 
     removeChilds(projectsContainer); //remove all displayed project cards on each render
 
-    Project.savedToDos.forEach((toDo) => {
+    savedTodos.forEach((toDo) => {
         const toDoCardDiv = document.createElement('div');
         toDoCardDiv.classList.add('todo-card', `${toDo.priority}`); // add the priority status of the ToDo as a class to be able to change it's styles
         toDoCardDiv.id = toDo.ID;
