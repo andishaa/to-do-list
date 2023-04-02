@@ -42,9 +42,9 @@ const CreateNewProject = (name) => {
 }
 
 //create the needed projects that will store all To Do's by the given criteria e.g. Inbox, Today, This Week.
-CreateNewProject('Inbox');
-CreateNewProject('Today');
-CreateNewProject('This Week');
+const Inbox = CreateNewProject('Inbox');
+const Today = CreateNewProject('Today');
+const ThisWeek = CreateNewProject('This Week');
 
 function capitalizeFirstLetter(word) {
     const firstLetter = word.charAt(0)
@@ -75,35 +75,32 @@ function checkDuplicateName(projectName) {
 }
 
 function filterToDosDueToday() {
-    const TodayProjectObj = getProjectObj('Today');
-    const InboxProjectObj = getProjectObj('Inbox');
-    const InboxSavedTodos = InboxProjectObj.getSavedTodos();
+    const InboxSavedTodos = Inbox.getSavedTodos();
     const todaysDate = format(new Date(), 'MM-dd-yyyy'); //need to format the date, otherwise can't compare the values
 
     // first we clear all savedToDos, if in previous session we had any saved
-    TodayProjectObj.clearSavedToDos();
+    Today.clearSavedToDos();
 
     //by default all our ToDOs are saved inside Inbox
     InboxSavedTodos.forEach(ToDo => {
         if (ToDo.dueDate === todaysDate) {
-            TodayProjectObj.addToDo(ToDo);
+            Today.addToDo(ToDo);
         }
     });
 }
 
 function filterToDosDueThisWeek() {
-    const ThisWeekProjectObj = getProjectObj('This Week');
-    const InobxProjectObj = getProjectObj('Inbox');
-    const InboxSavedTodos = InobxProjectObj.getSavedTodos();
+    const InboxSavedTodos = Inbox.getSavedTodos();
 
-    ThisWeekProjectObj.clearSavedToDos();
+    //clear all previously saved ToDos in ThisWeek
+    ThisWeek.clearSavedToDos();
 
     InboxSavedTodos.forEach(ToDo => {
         const TODOdueDate = ToDo.dueDate;
         // logic to find if the ToDo dueDate is This Week
         // https://github.com/date-fns/date-fns/discussions/3205#discussioncomment-3815471
         if (startOfWeek(new Date()).getTime() === startOfWeek(parse(TODOdueDate, 'MM-dd-yyyy', new Date())).getTime()) {
-            ThisWeekProjectObj.addToDo(ToDo);
+            ThisWeek.addToDo(ToDo);
         }
     });
 }
