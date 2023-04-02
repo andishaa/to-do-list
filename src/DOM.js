@@ -254,6 +254,10 @@ const renderSavedToDos = (projectName) => {
             const descriptionInfo = document.createElement('span');
             descriptionInfo.classList.add('description-info');
             descriptionInfo.textContent = toDo.desctiption;
+            //if the toDo is with empty description, add by default this content:
+            if (toDo.desctiption === '') {
+                descriptionInfo.textContent = 'Empty description';
+            }
             description.append(descriptionInfo);
             toDoDetails.append(description);
 
