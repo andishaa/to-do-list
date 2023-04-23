@@ -27,7 +27,7 @@ function setUpNavBtns() {
             if (currentProject === 'This Week') {
                 filterToDosDueThisWeek();
             }
-            renderSavedToDos(projectName);
+            renderSavedToDos(currentProject);
         });
     });
 }
@@ -37,10 +37,11 @@ function setUpDeleteProjectBtns() {
     delProjectBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             const projectName = e.target.previousSibling.textContent;
-            deleteProject(projectName); // kogato go iztrie, ostava v Inbox-a, tryabva da izmislya kak da go iztrivam i ot inboxa
+            deleteProject(projectName);
             //when we delete the project, remove the element from the UI
             e.target.parentElement.remove();
-            renderSavedToDos('Inbox');
+            currentProject = 'Inbox'; // when the user deletes their project, by default return them to the Inbox
+            renderSavedToDos(currentProject);
         });
     });
 }
