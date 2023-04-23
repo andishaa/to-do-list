@@ -107,7 +107,7 @@ body {
     color: var(--color-links);
 }
 
-.nav li {
+.main-nav li {
     font-size: 1rem;
     text-decoration: none;
     list-style: none;
@@ -123,6 +123,24 @@ body {
 
 .projects-nav h1 {
     font-size: 1.5rem;
+}
+
+.projects-list-item {
+    display: flex;
+}
+
+.projects-list-item .project-name {
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.4rem 0.5rem;
+    flex-grow: 1;
+}
+
+.del-project-btn {
+    padding: 0.4rem 0.5rem;
+    color: red;
+    cursor: pointer;
+    justify-self: flex-end;
 }
 
 /* navgiation project buttons and form */

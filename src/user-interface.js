@@ -1,5 +1,5 @@
 import { projectForm, renderProjectsList, renderSavedToDos } from "./DOM";
-import { CreateNewProject, getProjectObj, checkDuplicateName, deleteAllToDos, filterToDosDueToday, filterToDosDueThisWeek } from "./projects";
+import { CreateNewProject, getProjectObj, deleteProject, checkDuplicateName, deleteAllToDos, filterToDosDueToday, filterToDosDueThisWeek } from "./projects";
 import { ToDoFactory } from "./todos";
 
 let currentProject = 'Inbox';
@@ -13,7 +13,7 @@ function setUpToggleNavBtn() {
 }
 
 function setUpNavBtns() {
-    const navListItems = document.querySelectorAll('.nav li');
+    const navListItems = document.querySelectorAll('.project-name');
     navListItems.forEach((navElement) => {
         navElement.addEventListener('click', (e) => {
             removeNavActiveClass();
@@ -28,6 +28,19 @@ function setUpNavBtns() {
                 filterToDosDueThisWeek();
             }
             renderSavedToDos(projectName);
+        });
+    });
+}
+
+function setUpDeleteProjectBtns() {
+    const delProjectBtns = document.querySelectorAll('.del-project-btn');
+    delProjectBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const projectName = e.target.previousSibling.textContent;
+            deleteProject(projectName); // kogato go iztrie, ostava v Inbox-a, tryabva da izmislya kak da go iztrivam i ot inboxa
+            //when we delete the project, remove the element from the UI
+            e.target.parentElement.remove();
+            renderSavedToDos('Inbox');
         });
     });
 }
@@ -76,6 +89,7 @@ function setUpProjectFormBtns() {
             CreateNewProject(formInput.value);
             renderProjectsList();
             setUpNavBtns(); // after rendering the projects list and a new list items pops in the dom add an event listener again
+            setUpDeleteProjectBtns();
             projectForm.remove();
             toggleAddProjectBtn();
         });
@@ -141,6 +155,7 @@ const setUpAddToDoFormBtns = () => {
 
         let newToDo = ToDoFactory(toDoTitleInput.value, toDoDescriptionInput.value, dueDate, toDoPriorityInput.value);
         //always add by default all new todos to the Inbox
+        //tryabva da izmislq kak da rendervam todotata v inbox-a shtoto kato gi dobavqm po default posle kato iztriq proekt nqma kak da gi premahna ot inbox-a
         if (currentProject !== 'Inbox') { //prevent duplicate adding a todo if we are already inside Inbox
             const inbox = getProjectObj('Inbox');
             inbox.addToDo(newToDo);
@@ -206,6 +221,7 @@ const initUI = () => {
     setUpToggleNavBtn();
     setUpAddProjectBtn();
     setUpNavBtns();
+    setUpDeleteProjectBtns();
     setUpAddNewToDoBtn();
     setUpAddToDoFormBtns();
 }

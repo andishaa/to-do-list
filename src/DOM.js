@@ -36,15 +36,17 @@ const nav = () => {
 
     const mainUl = document.createElement('ul');
     const inboxLi = document.createElement('li');
-    inboxLi.classList.add('nav-active');
+    inboxLi.classList.add('nav-active', 'project-name');
     inboxLi.textContent = 'Inbox';
     mainUl.append(inboxLi);
 
     const todayLi = document.createElement('li');
+    todayLi.classList.add('project-name');
     todayLi.textContent = 'Today';
     mainUl.append(todayLi);
 
     const thisWeekLi = document.createElement('li');
+    thisWeekLi.classList.add('project-name');
     thisWeekLi.textContent = 'This Week';
     mainUl.append(thisWeekLi);
 
@@ -54,9 +56,9 @@ const nav = () => {
     projectsSectionTitle.textContent = 'Projects';
     projectsSection.append(projectsSectionTitle);
 
-    const projectsUl = document.createElement('ul');
-    projectsUl.classList.add('projects-list');
-    projectsSection.append(projectsUl);
+    const projectsDiv = document.createElement('div');
+    projectsDiv.classList.add('projects-list');
+    projectsSection.append(projectsDiv);
 
     const addProjectBtn = document.createElement('button');
     addProjectBtn.id = 'add-project-btn';
@@ -97,19 +99,28 @@ const projectForm = () => {
 }
 
 const renderProjectsList = () => {
-    const projectsListULelement = document.querySelector('.projects-list');
+    const projectsListDivElement = document.querySelector('.projects-list');
 
-    removeChilds(projectsListULelement); //remove previously displayed <li> project names on each render (otherwise they start duplicating on every new project added)
+    removeChilds(projectsListDivElement); //remove previously displayed <li> project names on each render (otherwise they start duplicating on every new project added)
 
     projectsModule.PROJECTS.forEach((project) => {
         //do not include the created by default Porjects: Inbox Today and This Week because they are already added in the nav() menu by default
         if (project.name === 'Inbox' || project.name === 'Today' || project.name === 'This Week') {
             return;
         }
-        const listItem = document.createElement('li');
-        listItem.classList.add('project-name');
-        listItem.textContent = project.name;
-        projectsListULelement.append(listItem);
+        const projectListItem = document.createElement('div');
+        projectListItem.classList.add('projects-list-item');
+
+        const nameContainer = document.createElement('div');
+        nameContainer.classList.add('project-name');
+        nameContainer.textContent = project.name;
+
+        const deleteBtnContainer = document.createElement('div');
+        deleteBtnContainer.classList.add('del-project-btn');
+        deleteBtnContainer.textContent = 'X'; //maybe hide it and show it only while the project name is with class nav-active
+
+        projectListItem.append(nameContainer, deleteBtnContainer);
+        projectsListDivElement.append(projectListItem);
     });
 }
 

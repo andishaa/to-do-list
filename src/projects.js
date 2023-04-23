@@ -17,11 +17,6 @@ const CreateNewProject = (name) => {
         project.name = newName;
     }
 
-    project.deleteProject = (projectName) => {
-        const projectToDelete = PROJECTS.findIndex((project) => project.name === projectName);
-        PROJECTS.splice(projectToDelete, 1);
-    }
-
     project.addToDo = (toDo) => {
         savedToDos.push(toDo);
     }
@@ -62,6 +57,18 @@ function deleteAllToDos(toDoID) {
     PROJECTS.forEach(project => {
         project.deleteToDo(toDoID);
     });
+}
+
+function deleteProject(projectName) {
+    //in order to remove the saved toDos from the Inbox, we have to delete them by ID also when deleting the Project
+    const projectObj = getProjectObj(projectName);
+
+    projectObj.getSavedTodos().forEach(toDo => {
+        deleteAllToDos(toDo.ID);
+    });
+
+    const projectToDelete = PROJECTS.findIndex((project) => project.name === projectName);
+    PROJECTS.splice(projectToDelete, 1);
 }
 
 function getToDoObj(projectName, toDoID) { // tova shte mi trqbva kato iskam da promenqm veche zapazenite ToDo-ta
@@ -107,4 +114,4 @@ function filterToDosDueThisWeek() {
 
 console.log('current projects: ', PROJECTS);
 
-export { PROJECTS, CreateNewProject, getProjectObj, checkDuplicateName, deleteAllToDos, filterToDosDueToday, filterToDosDueThisWeek };
+export { PROJECTS, CreateNewProject, getProjectObj, deleteProject, checkDuplicateName, deleteAllToDos, filterToDosDueToday, filterToDosDueThisWeek };
