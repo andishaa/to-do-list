@@ -73,7 +73,7 @@ function deleteProject(projectName) {
 
 function getToDoObj(projectName, toDoID) { // tova shte mi trqbva kato iskam da promenqm veche zapazenite ToDo-ta
     const currentProject = getProjectObj(projectName);
-    return currentProject.savedToDos.find(toDo => toDo.ID === toDoID);
+    return currentProject.getSavedTodos().find(toDo => toDo.ID === toDoID);
 }
 
 function checkDuplicateName(projectName) {
@@ -114,4 +114,4 @@ function filterToDosDueThisWeek() {
 
 console.log('current projects: ', PROJECTS);
 
-export { PROJECTS, CreateNewProject, getProjectObj, deleteProject, checkDuplicateName, deleteAllToDos, filterToDosDueToday, filterToDosDueThisWeek };
+export { PROJECTS, CreateNewProject, getProjectObj, getToDoObj, deleteProject, checkDuplicateName, deleteAllToDos, filterToDosDueToday, filterToDosDueThisWeek };

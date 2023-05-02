@@ -1,5 +1,5 @@
 import * as projectsModule from "./projects";
-import { setUpDeleteToDoBtns, setUpShowDetailsBtns } from "./user-interface";
+import { setUpDeleteToDoBtns, setUpEditToDoTitle, setUpShowDetailsBtns } from "./user-interface";
 
 const body = document.body;
 
@@ -230,6 +230,7 @@ const renderSavedToDos = (projectName) => {
         const cardTitleDiv = document.createElement('div');
         cardTitleDiv.classList.add('card-title');
         cardTitleDiv.textContent = toDo.title;
+        cardTitleDiv.contentEditable = true; //make it possible to edit the titles when clicking on them
         toDoMain.append(cardTitleDiv);
 
         const cardDueDateDiv = document.createElement('div');
@@ -281,7 +282,7 @@ const renderSavedToDos = (projectName) => {
 
     setUpShowDetailsBtns();
     setUpDeleteToDoBtns();
-
+    setUpEditToDoTitle();
 }
 
 const removeChilds = (parent) => {

@@ -1,5 +1,5 @@
 import { projectForm, renderProjectsList, renderSavedToDos } from "./DOM";
-import { CreateNewProject, getProjectObj, deleteProject, checkDuplicateName, deleteAllToDos, filterToDosDueToday, filterToDosDueThisWeek } from "./projects";
+import { CreateNewProject, getProjectObj, deleteProject, checkDuplicateName, deleteAllToDos, filterToDosDueToday, filterToDosDueThisWeek, getToDoObj } from "./projects";
 import { ToDoFactory } from "./todos";
 
 let currentProject = 'Inbox';
@@ -42,6 +42,25 @@ function setUpDeleteProjectBtns() {
             e.target.parentElement.remove();
             currentProject = 'Inbox'; // when the user deletes their project, by default return them to the Inbox
             renderSavedToDos(currentProject);
+        });
+    });
+}
+
+function setUpEditToDoTitle() {
+    const toDoTitles = document.querySelectorAll('.card-title');
+
+    toDoTitles.forEach(titleElement => {
+        titleElement.addEventListener('input', (e) => {
+            let newTitle = e.target.textContent.trim();
+            //if the user edits the title and forgets to enter a title, alert and prompt for new title:
+            if (newTitle === '') {
+                alert("Title can't be empty");
+                newTitle = prompt("Enter ToDo Title:");
+                e.target.textContent = newTitle;
+            }
+            const toDoID = e.target.parentElement.parentElement.id;
+            const toDoObj = getToDoObj(currentProject, toDoID);
+            toDoObj.editTitle(newTitle);
         });
     });
 }
@@ -156,7 +175,6 @@ const setUpAddToDoFormBtns = () => {
 
         let newToDo = ToDoFactory(toDoTitleInput.value, toDoDescriptionInput.value, dueDate, toDoPriorityInput.value);
         //always add by default all new todos to the Inbox
-        //tryabva da izmislq kak da rendervam todotata v inbox-a shtoto kato gi dobavqm po default posle kato iztriq proekt nqma kak da gi premahna ot inbox-a
         if (currentProject !== 'Inbox') { //prevent duplicate adding a todo if we are already inside Inbox
             const inbox = getProjectObj('Inbox');
             inbox.addToDo(newToDo);
@@ -166,7 +184,7 @@ const setUpAddToDoFormBtns = () => {
         project.addToDo(newToDo);
         toDoForm.reset();
         //because we reset the form, we have to set the default form input date and dueDate to Today again
-        toDoDueDateInput.valueAsDate = new Date(); 
+        toDoDueDateInput.valueAsDate = new Date();
         dueDate = new Date();
         toggleToDoForm();
         toggleToDoFormBtn();
@@ -225,6 +243,7 @@ const initUI = () => {
     setUpDeleteProjectBtns();
     setUpAddNewToDoBtn();
     setUpAddToDoFormBtns();
+    setUpEditToDoTitle();
 }
 
-export { initUI, setUpDeleteToDoBtns, setUpShowDetailsBtns }
+export { initUI, setUpDeleteToDoBtns, setUpShowDetailsBtns, setUpEditToDoTitle }
