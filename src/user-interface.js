@@ -46,25 +46,6 @@ function setUpDeleteProjectBtns() {
     });
 }
 
-function setUpEditToDoTitle() {
-    const toDoTitles = document.querySelectorAll('.card-title');
-
-    toDoTitles.forEach(titleElement => {
-        titleElement.addEventListener('input', (e) => {
-            let newTitle = e.target.textContent.trim();
-            //if the user edits the title and forgets to enter a title, alert and prompt for new title:
-            if (newTitle === '') {
-                alert("Title can't be empty");
-                newTitle = prompt("Enter ToDo Title:");
-                e.target.textContent = newTitle;
-            }
-            const toDoID = e.target.parentElement.parentElement.id;
-            const toDoObj = getToDoObj(currentProject, toDoID);
-            toDoObj.editTitle(newTitle);
-        });
-    });
-}
-
 function removeNavActiveClass() {
     let elWithActiveClass = document.getElementsByClassName('nav-active');
     while (elWithActiveClass.length) {
@@ -206,6 +187,25 @@ const toggleToDoFormBtn = () => {
 const toggleToDoForm = () => {
     const toDoForm = document.querySelector('.todo-form');
     toDoForm.classList.toggle('hidden');
+}
+
+function setUpEditToDoTitle() {
+    const toDoTitles = document.querySelectorAll('.card-title');
+
+    toDoTitles.forEach(titleElement => {
+        titleElement.addEventListener('input', (e) => {
+            let newTitle = e.target.textContent.trim();
+            //if the user edits the title and forgets to enter a title, alert and prompt for new title:
+            if (newTitle === '') {
+                alert("Title can't be empty");
+                newTitle = prompt("Enter ToDo Title:");
+                e.target.textContent = newTitle;
+            }
+            const toDoID = e.target.parentElement.parentElement.id;
+            const toDoObj = getToDoObj(currentProject, toDoID);
+            toDoObj.editTitle(newTitle);
+        });
+    });
 }
 
 const setUpDeleteToDoBtns = () => {
