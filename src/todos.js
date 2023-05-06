@@ -29,6 +29,8 @@ const ToDoFactory = (title, desctiption, dueDate, priority) => {
         toDo.priority = newPriority;
     }
 
+    toDo.getPriority = () => { return toDo.priority };
+
     return toDo;
 };
 

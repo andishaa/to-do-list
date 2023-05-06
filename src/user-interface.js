@@ -1,4 +1,4 @@
-import { projectForm, renderProjectsList, renderSavedToDos } from "./DOM";
+import { projectForm, renderProjectsList, renderSavedToDos, toDoPrioritySelectElement } from "./DOM";
 import { CreateNewProject, getProjectObj, deleteProject, checkDuplicateName, deleteAllToDos, filterToDosDueToday, filterToDosDueThisWeek, getToDoObj } from "./projects";
 import { ToDoFactory } from "./todos";
 
@@ -258,11 +258,34 @@ function setUpShowDetailsBtns() {
     });
 }
 
+function setUpChangeToDoPriority() {
+    const toDoPrioritySpans = document.querySelectorAll('.todo-priority');
+
+    toDoPrioritySpans.forEach(span => {
+        span.addEventListener('click', function (e) {
+            const clickedSpan = e.target;
+            const toDoID = clickedSpan.parentElement.parentElement.id;
+            const toDoObj = getToDoObj(currentProject, toDoID);
+            const priorityDOMelement = toDoPrioritySelectElement();
+            clickedSpan.textContent = '';
+            clickedSpan.append(priorityDOMelement);
+            priorityDOMelement.addEventListener('change', function () {
+                const toDoCardDiv = document.getElementById(toDoID);
+                toDoCardDiv.classList.remove(toDoObj.getPriority());
+                toDoObj.changePriority(priorityDOMelement.value);
+                toDoCardDiv.classList.add(toDoObj.getPriority());
+            });
+
+        }, { once: true });
+    });
+}
+
 function setUpToDosInteractivity() {
     setUpDeleteToDoBtns();
     setUpShowDetailsBtns();
     setUpEditToDoTitle();
     setUpEditDueDate();
+    setUpChangeToDoPriority();
 }
 
 const initUI = () => {

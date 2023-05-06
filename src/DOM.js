@@ -168,27 +168,7 @@ const addNewToDoForm = () => {
     dueDateInput.required;
     toDoForm.append(dueDateInput);
 
-    const prioritySelect = document.createElement('select');
-    prioritySelect.id = 'priority-input';
-    const optionDefault = document.createElement('option');
-    optionDefault.textContent = '--Priority';
-    optionDefault.value = 'none';
-    prioritySelect.append(optionDefault);
-
-    const optionLow = document.createElement('option');
-    optionLow.textContent = 'Low Priority';
-    optionLow.value = 'low';
-    prioritySelect.append(optionLow);
-
-    const optionMedium = document.createElement('option');
-    optionMedium.textContent = 'Medium Priority';
-    optionMedium.value = 'medium';
-    prioritySelect.append(optionMedium);
-
-    const optionHigh = document.createElement('option');
-    optionHigh.textContent = 'High Priority';
-    optionHigh.value = 'high';
-    prioritySelect.append(optionHigh);
+    const prioritySelect = toDoPrioritySelectElement();
     toDoForm.append(prioritySelect);
 
     const buttonsSpan = document.createElement('span');
@@ -210,6 +190,32 @@ const addNewToDoForm = () => {
     toDoForm.append(buttonsSpan);
 
     return toDoForm;
+}
+
+function toDoPrioritySelectElement() {
+    const prioritySelectElement = document.createElement('select');
+    prioritySelectElement.id = 'priority-input';
+    const optionDefault = document.createElement('option');
+    optionDefault.textContent = '--Priority';
+    optionDefault.value = 'none';
+    prioritySelectElement.append(optionDefault);
+
+    const optionLow = document.createElement('option');
+    optionLow.textContent = 'Low Priority';
+    optionLow.value = 'low';
+    prioritySelectElement.append(optionLow);
+
+    const optionMedium = document.createElement('option');
+    optionMedium.textContent = 'Medium Priority';
+    optionMedium.value = 'medium';
+    prioritySelectElement.append(optionMedium);
+
+    const optionHigh = document.createElement('option');
+    optionHigh.textContent = 'High Priority';
+    optionHigh.value = 'high';
+    prioritySelectElement.append(optionHigh);
+   
+    return prioritySelectElement;
 }
 
 const renderSavedToDos = (projectName) => {
@@ -289,4 +295,4 @@ const removeChilds = (parent) => {
     };
 }
 
-export { initDomLoad, projectForm, renderProjectsList, renderSavedToDos };
+export { initDomLoad, projectForm, renderProjectsList, renderSavedToDos, toDoPrioritySelectElement };
