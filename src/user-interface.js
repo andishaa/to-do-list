@@ -223,8 +223,6 @@ function setUpEditDueDate() {
             clickedElement.append(dateInput);
             dateInput.addEventListener('change', function () {
                 toDoObj.changeDueDate(dateInput.value);
-                clickedElement.textContent = toDoObj.dueDate;
-                dateInput.remove();
             });
         }, { once: true });
     });
