@@ -306,6 +306,14 @@ textarea {
         font-size: 1.7rem;
     }
 
+    .del-project-btn {
+        display: none;
+    }
+    
+    .projects-list-item:hover .del-project-btn{
+        display: block;
+    }
+
     .toggle-nav-btn {
         display: none;
     }
