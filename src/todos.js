@@ -22,7 +22,7 @@ const ToDoFactory = (title, desctiption, dueDate, priority) => {
     }
 
     toDo.changeDueDate = (newDate) => {
-        toDo.dueDate = newDate;
+        toDo.dueDate = format(new Date(newDate), 'MM-dd-yyyy');
     }
 
     toDo.changePriority = (newPriority) => {

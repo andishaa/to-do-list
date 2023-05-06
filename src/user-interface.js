@@ -208,6 +208,28 @@ function setUpEditToDoTitle() {
     });
 }
 
+function setUpEditDueDate() {
+    const cardDueDateDivs = document.querySelectorAll('.card-duedate');
+
+    cardDueDateDivs.forEach(dueDateDiv => {
+        dueDateDiv.addEventListener('click', function (e) {
+            const clickedElement = e.target;
+            const toDoID = clickedElement.parentElement.parentElement.id;
+            const toDoObj = getToDoObj(currentProject, toDoID);
+            const dateInput = document.createElement('input');
+            dateInput.type = 'date';
+            //clear the text inside the div 
+            clickedElement.textContent = '';
+            clickedElement.append(dateInput);
+            dateInput.addEventListener('change', function () {
+                toDoObj.changeDueDate(dateInput.value);
+                clickedElement.textContent = toDoObj.dueDate;
+                dateInput.remove();
+            });
+        }, { once: true });
+    });
+}
+
 const setUpDeleteToDoBtns = () => {
     const deleteBtns = document.querySelectorAll('.card-btns .delete-btn');
 
@@ -243,7 +265,6 @@ const initUI = () => {
     setUpDeleteProjectBtns();
     setUpAddNewToDoBtn();
     setUpAddToDoFormBtns();
-    setUpEditToDoTitle();
 }
 
-export { initUI, setUpDeleteToDoBtns, setUpShowDetailsBtns, setUpEditToDoTitle }
+export { initUI, setUpDeleteToDoBtns, setUpShowDetailsBtns, setUpEditToDoTitle, setUpEditDueDate }

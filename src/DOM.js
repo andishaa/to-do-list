@@ -1,5 +1,5 @@
 import * as projectsModule from "./projects";
-import { setUpDeleteToDoBtns, setUpEditToDoTitle, setUpShowDetailsBtns } from "./user-interface";
+import { setUpDeleteToDoBtns, setUpEditToDoTitle, setUpShowDetailsBtns, setUpEditDueDate } from "./user-interface";
 
 const body = document.body;
 
@@ -283,6 +283,7 @@ const renderSavedToDos = (projectName) => {
     setUpShowDetailsBtns();
     setUpDeleteToDoBtns();
     setUpEditToDoTitle();
+    setUpEditDueDate();
 }
 
 const removeChilds = (parent) => {
