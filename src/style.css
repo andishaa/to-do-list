@@ -240,6 +240,10 @@ body {
     flex-wrap: wrap;
 }
 
+.description-info {
+    display: table;
+}
+
 /* Add new to-do form and buttons*/
 #todo-form-btn {
     font-weight: 900;
