@@ -1,5 +1,5 @@
 import * as projectsModule from "./projects";
-import { setUpDeleteToDoBtns, setUpEditToDoTitle, setUpShowDetailsBtns, setUpEditDueDate } from "./user-interface";
+import { setUpToDosInteractivity } from "./user-interface";
 
 const body = document.body;
 
@@ -280,10 +280,7 @@ const renderSavedToDos = (projectName) => {
         projectsContainer.append(toDoCardDiv);
     });
 
-    setUpShowDetailsBtns();
-    setUpDeleteToDoBtns();
-    setUpEditToDoTitle();
-    setUpEditDueDate();
+    setUpToDosInteractivity();
 }
 
 const removeChilds = (parent) => {

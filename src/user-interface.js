@@ -258,6 +258,13 @@ function setUpShowDetailsBtns() {
     });
 }
 
+function setUpToDosInteractivity() {
+    setUpDeleteToDoBtns();
+    setUpShowDetailsBtns();
+    setUpEditToDoTitle();
+    setUpEditDueDate();
+}
+
 const initUI = () => {
     setUpToggleNavBtn();
     setUpAddProjectBtn();
@@ -267,4 +274,4 @@ const initUI = () => {
     setUpAddToDoFormBtns();
 }
 
-export { initUI, setUpDeleteToDoBtns, setUpShowDetailsBtns, setUpEditToDoTitle, setUpEditDueDate }
+export { initUI, setUpToDosInteractivity }
