@@ -20,7 +20,6 @@ function setUpNavBtns() {
             e.target.classList.add('nav-active');
             const projectName = e.target.textContent;
             currentProject = projectName;
-            console.log('current project: ', currentProject);
             if (currentProject === 'Today') {
                 filterToDosDueToday();
             }
