@@ -268,9 +268,10 @@ const renderSavedToDos = (projectName) => {
         description.classList.add('card-description');
         const descriptionInfo = document.createElement('span');
         descriptionInfo.classList.add('description-info');
-        descriptionInfo.textContent = toDo.desctiption;
+        descriptionInfo.contentEditable = true;
+        descriptionInfo.textContent = toDo.description;
         //if the toDo is with empty description, add by default this content:
-        if (toDo.desctiption === '') {
+        if (toDo.description === '') {
             descriptionInfo.textContent = 'Empty description';
         }
         description.append(descriptionInfo);

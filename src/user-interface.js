@@ -255,6 +255,19 @@ function setUpShowDetailsBtns() {
     });
 }
 
+function setUpEditToDoDescription() {
+    const descriptionInfoSpans = document.querySelectorAll('.description-info');
+
+    for (let spanEl of descriptionInfoSpans) {
+        spanEl.addEventListener('input', function (e) {
+            const toDoID = e.target.parentElement.parentElement.parentElement.id;
+            const toDoObj = getToDoObj(currentProject, toDoID);
+            let newDescription = e.target.textContent.trim();
+            toDoObj.editDescription(newDescription);
+        });
+    };
+}
+
 function setUpChangeToDoPriority() {
     const toDoPrioritySpans = document.querySelectorAll('.todo-priority');
 
@@ -283,6 +296,7 @@ function setUpToDosInteractivity() {
     setUpEditToDoTitle();
     setUpEditDueDate();
     setUpChangeToDoPriority();
+    setUpEditToDoDescription();
 }
 
 const initUI = () => {
