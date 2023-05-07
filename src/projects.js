@@ -1,45 +1,46 @@
 import { format, parse, startOfWeek } from "date-fns";
+import * as STORAGE from "./storage";
 
-const PROJECTS = [];
+const savedProjects = STORAGE.getProjects();
 
-const CreateNewProject = (name) => {
-    //if the user tries to Add a new project without inputing anything in the form input field don't do anything
-    if (name.trim() === '') {
-        return;
+class Project {
+    constructor(name) {
+        this.name = capitalizeFirstLetter(name.trim());
+        this.savedToDos = [];
     }
 
-    const project = {};
-    let savedToDos = [];
-
-    project.name = capitalizeFirstLetter(name.trim()); // by default always make the first letter Capital and remove if any extra empty spaces were entered
-
-    project.editName = (newName) => {
-        project.name = newName;
+    editName(newName) {
+        this.name = newName.trim();
     }
 
-    project.addToDo = (toDo) => {
-        savedToDos.push(toDo);
+    addToDo(toDo) {
+        this.savedToDos.push(toDo);
     }
 
-    project.deleteToDo = (toDoID) => {
-        const toDoToDelete = savedToDos.findIndex((toDo) => toDo.ID === toDoID);
+    deleteToDo(toDoID) {
+        const toDoToDelete = this.savedToDos.findIndex((toDo) => toDo.ID === toDoID);
         if (toDoToDelete !== -1) {
-            savedToDos.splice(toDoToDelete, 1);
+            this.savedToDos.splice(toDoToDelete, 1);
         }
     }
 
-    project.clearSavedToDos = () => { savedToDos = []; }
-    project.getSavedTodos = () => { return savedToDos };
+    clearSavedToDos() {
+        this.savedToDos = [];
+    }
 
-    PROJECTS.push(project);
+    getSavedTodos() {
+        return this.savedToDos;
+    }
 
-    return project;
 }
 
 //create the needed projects that will store all To Do's by the given criteria e.g. Inbox, Today, This Week.
-const Inbox = CreateNewProject('Inbox');
-const Today = CreateNewProject('Today');
-const ThisWeek = CreateNewProject('This Week');
+const Inbox = new Project('Inbox');
+const Today = new Project('Today');
+const ThisWeek = new Project('This Week');
+STORAGE.addProject(Inbox);
+STORAGE.addProject(Today);
+STORAGE.addProject(ThisWeek);
 
 function capitalizeFirstLetter(word) {
     const firstLetter = word.charAt(0)
@@ -50,11 +51,11 @@ function capitalizeFirstLetter(word) {
 }
 
 const getProjectObj = (projectName) => {
-    return PROJECTS.find(project => project.name === projectName);
+    return savedProjects.find(project => project.name === projectName);
 }
 
 function deleteAllToDos(toDoID) {
-    PROJECTS.forEach(project => {
+    savedProjects.forEach(project => {
         project.deleteToDo(toDoID);
     });
 }
@@ -67,8 +68,8 @@ function deleteProject(projectName) {
         deleteAllToDos(toDo.ID);
     });
 
-    const projectToDelete = PROJECTS.findIndex((project) => project.name === projectName);
-    PROJECTS.splice(projectToDelete, 1);
+    const projectToDelete = savedProjects.findIndex((project) => project.name === projectName);
+    savedProjects.splice(projectToDelete, 1);
 }
 
 function getToDoObj(projectName, toDoID) { // tova shte mi trqbva kato iskam da promenqm veche zapazenite ToDo-ta
@@ -77,7 +78,7 @@ function getToDoObj(projectName, toDoID) { // tova shte mi trqbva kato iskam da 
 }
 
 function checkDuplicateName(projectName) {
-    const isDuplicate = PROJECTS.find((project) => project.name.toLowerCase() === projectName.toLowerCase()) !== undefined;
+    const isDuplicate = savedProjects.find((project) => project.name.toLowerCase() === projectName.toLowerCase()) !== undefined;
     return isDuplicate; // true or false
 }
 
@@ -112,6 +113,6 @@ function filterToDosDueThisWeek() {
     });
 }
 
-console.log('current projects: ', PROJECTS);
+console.log('current projects: ', savedProjects);
 
-export { PROJECTS, CreateNewProject, getProjectObj, getToDoObj, deleteProject, checkDuplicateName, deleteAllToDos, filterToDosDueToday, filterToDosDueThisWeek };
+export { Project, getProjectObj, getToDoObj, deleteProject, checkDuplicateName, deleteAllToDos, filterToDosDueToday, filterToDosDueThisWeek };

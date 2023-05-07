@@ -1,6 +1,7 @@
 import { projectForm, renderProjectsList, renderSavedToDos, toDoPrioritySelectElement } from "./DOM";
-import { CreateNewProject, getProjectObj, deleteProject, checkDuplicateName, deleteAllToDos, filterToDosDueToday, filterToDosDueThisWeek, getToDoObj } from "./projects";
+import { Project, getProjectObj, deleteProject, checkDuplicateName, deleteAllToDos, filterToDosDueToday, filterToDosDueThisWeek, getToDoObj } from "./projects";
 import { ToDoFactory } from "./todos";
+import * as STORAGE from "./storage";
 
 let currentProject = 'Inbox';
 
@@ -86,7 +87,9 @@ function setUpProjectFormBtns() {
                 return;
             }
 
-            CreateNewProject(formInput.value);
+            const newProject = new Project(formInput.value);
+            STORAGE.addProject(newProject);
+            // CreateNewProject(formInput.value);
             renderProjectsList();
             setUpNavBtns(); // after rendering the projects list and a new list items pops in the dom add an event listener again
             setUpDeleteProjectBtns();

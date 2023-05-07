@@ -1,5 +1,6 @@
 import * as projectsModule from "./projects";
 import { setUpToDosInteractivity } from "./user-interface";
+import * as STORAGE from "./storage";
 
 const body = document.body;
 
@@ -103,7 +104,7 @@ const renderProjectsList = () => {
 
     removeChilds(projectsListDivElement); //remove previously displayed <li> project names on each render (otherwise they start duplicating on every new project added)
 
-    projectsModule.PROJECTS.forEach((project) => {
+    STORAGE.getProjects().forEach((project) => {
         //do not include the created by default Porjects: Inbox Today and This Week because they are already added in the nav() menu by default
         if (project.name === 'Inbox' || project.name === 'Today' || project.name === 'This Week') {
             return;
