@@ -1,37 +1,33 @@
 import { format } from 'date-fns';
 
-const ToDoFactory = (title, description, dueDate, priority) => {
-    const toDo = {};
-    //if the user inputs empty Title, don't do anything
-    if (title === '') {
-        return;
-    }
-
-    toDo.ID = crypto.randomUUID();
-    toDo.title = title;
-    toDo.description = description;
-    toDo.dueDate = format(new Date(dueDate), 'MM-dd-yyyy');
-    toDo.priority = priority;
-
-    toDo.editTitle = (newTitle) => {
-        toDo.title = newTitle;
+class ToDo {
+    constructor(title, description, dueDate, priority) {
+        this.ID = crypto.randomUUID();
+        this.title = title;
+        this.description = description;
+        this.dueDate = format(new Date(dueDate), 'MM-dd-yyyy');
+        this.priority = priority;
     };
 
-    toDo.editDescription = (newDescription) => {
-        toDo.description = newDescription;
-    }
+    editTitle(newTitle) {
+        this.title = newTitle;
+    };
 
-    toDo.changeDueDate = (newDate) => {
-        toDo.dueDate = format(new Date(newDate), 'MM-dd-yyyy');
-    }
+    editDescription(newDescription) {
+        this.description = newDescription;
+    };
 
-    toDo.changePriority = (newPriority) => {
-        toDo.priority = newPriority;
-    }
+    changeDueDate(newDate) {
+        this.dueDate = format(new Date(newDate), 'MM-dd-yyyy');
+    };
 
-    toDo.getPriority = () => { return toDo.priority };
+    changePriority(newPriority) {
+        this.priority = newPriority;
+    };
 
-    return toDo;
-};
+    getPriority() {
+        return this.priority
+    };
+}
 
-export { ToDoFactory };
+export { ToDo };

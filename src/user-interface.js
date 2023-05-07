@@ -1,6 +1,6 @@
 import { projectForm, renderProjectsList, renderSavedToDos, toDoPrioritySelectElement } from "./DOM";
 import { Project, getProjectObj, deleteProject, checkDuplicateName, deleteAllToDos, filterToDosDueToday, filterToDosDueThisWeek, getToDoObj } from "./projects";
-import { ToDoFactory } from "./todos";
+import { ToDo } from "./todos";
 import * as STORAGE from "./storage";
 
 let currentProject = 'Inbox';
@@ -156,7 +156,8 @@ const setUpAddToDoFormBtns = () => {
             toDoPriorityInput.value = 'low';
         }
 
-        let newToDo = ToDoFactory(toDoTitleInput.value, toDoDescriptionInput.value, dueDate, toDoPriorityInput.value);
+        let newToDo = new ToDo(toDoTitleInput.value, toDoDescriptionInput.value, dueDate, toDoPriorityInput.value);
+
         //always add by default all new todos to the Inbox
         if (currentProject !== 'Inbox') { //prevent duplicate adding a todo if we are already inside Inbox
             const inbox = getProjectObj('Inbox');
