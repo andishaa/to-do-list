@@ -1,6 +1,5 @@
-import * as projectsModule from "./projects";
 import { setUpToDosInteractivity } from "./user-interface";
-import * as STORAGE from "./storage";
+import { Storage } from "./storage";
 
 const body = document.body;
 
@@ -104,9 +103,9 @@ const renderProjectsList = () => {
 
     removeChilds(projectsListDivElement); //remove previously displayed <li> project names on each render (otherwise they start duplicating on every new project added)
 
-    STORAGE.getProjects().forEach((project) => {
+    Storage.savedProjects().getProjects().forEach((project) => {
         //do not include the created by default Porjects: Inbox Today and This Week because they are already added in the nav() menu by default
-        if (project.name === 'Inbox' || project.name === 'Today' || project.name === 'This Week') {
+        if (project.getName() === 'Inbox' || project.getName() === 'Today' || project.getName() === 'This Week') {
             return;
         }
         const projectListItem = document.createElement('div');
@@ -114,7 +113,7 @@ const renderProjectsList = () => {
 
         const nameContainer = document.createElement('div');
         nameContainer.classList.add('project-name');
-        nameContainer.textContent = project.name;
+        nameContainer.textContent = project.getName();
 
         const deleteBtnContainer = document.createElement('div');
         deleteBtnContainer.classList.add('del-project-btn');
@@ -215,34 +214,34 @@ function toDoPrioritySelectElement() {
     optionHigh.textContent = 'High Priority';
     optionHigh.value = 'high';
     prioritySelectElement.append(optionHigh);
-   
+
     return prioritySelectElement;
 }
 
 const renderSavedToDos = (projectName) => {
     const projectsContainer = document.querySelector('.todos-container');
-    const Project = projectsModule.getProjectObj(projectName);
+    const Project = Storage.getProjectObj(projectName);
     const savedTodos = Project.getSavedTodos();
 
     removeChilds(projectsContainer); //remove all displayed project cards on each render
 
     savedTodos.forEach((toDo) => {
         const toDoCardDiv = document.createElement('div');
-        toDoCardDiv.classList.add('todo-card', `${toDo.priority}`); // add the priority status of the ToDo as a class to be able to change it's styles
-        toDoCardDiv.id = toDo.ID;
+        toDoCardDiv.classList.add('todo-card', `${toDo.getPriority()}`); // add the priority status of the ToDo as a class to be able to change it's styles
+        toDoCardDiv.id = toDo.getID();
 
         const toDoMain = document.createElement('div');
         toDoMain.classList.add('todo-main');
 
         const cardTitleDiv = document.createElement('div');
         cardTitleDiv.classList.add('card-title');
-        cardTitleDiv.textContent = toDo.title;
+        cardTitleDiv.textContent = toDo.getTitle();
         cardTitleDiv.contentEditable = true; //make it possible to edit the titles when clicking on them
         toDoMain.append(cardTitleDiv);
 
         const cardDueDateDiv = document.createElement('div');
         cardDueDateDiv.classList.add('card-duedate');
-        cardDueDateDiv.textContent = toDo.dueDate;
+        cardDueDateDiv.textContent = toDo.getDueDate();
         toDoMain.append(cardDueDateDiv);
 
         const cardBtns = document.createElement('div');
@@ -270,9 +269,9 @@ const renderSavedToDos = (projectName) => {
         const descriptionInfo = document.createElement('span');
         descriptionInfo.classList.add('description-info');
         descriptionInfo.contentEditable = true;
-        descriptionInfo.textContent = toDo.description;
+        descriptionInfo.textContent = toDo.getDescription();
         //if the toDo is with empty description, add by default this content:
-        if (toDo.description === '') {
+        if (toDo.getDescription() === '') {
             descriptionInfo.textContent = 'Empty description';
         }
         description.append(descriptionInfo);
@@ -280,7 +279,7 @@ const renderSavedToDos = (projectName) => {
 
         const toDoPriority = document.createElement('span');
         toDoPriority.classList.add('todo-priority');
-        toDoPriority.textContent = `Priority: ${toDo.priority}`;
+        toDoPriority.textContent = `Priority: ${toDo.getPriority()}`;
         toDoDetails.append(toDoPriority);
 
         toDoCardDiv.append(toDoDetails);

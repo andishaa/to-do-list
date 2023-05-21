@@ -1,7 +1,8 @@
+import { format } from "date-fns";
 import { projectForm, renderProjectsList, renderSavedToDos, toDoPrioritySelectElement } from "./DOM";
-import { Project, getProjectObj, deleteProject, checkDuplicateName, deleteAllToDos, filterToDosDueToday, filterToDosDueThisWeek, getToDoObj } from "./projects";
+import { Project } from "./projects";
 import { ToDo } from "./todos";
-import * as STORAGE from "./storage";
+import { Storage } from "./storage";
 
 let currentProject = 'Inbox';
 
@@ -22,10 +23,10 @@ function setUpNavBtns() {
             const projectName = e.target.textContent;
             currentProject = projectName;
             if (currentProject === 'Today') {
-                filterToDosDueToday();
+                Storage.updateTodayProject();
             }
             if (currentProject === 'This Week') {
-                filterToDosDueThisWeek();
+                Storage.updateThisWeekProject();
             }
             renderSavedToDos(currentProject);
         });
@@ -37,7 +38,7 @@ function setUpDeleteProjectBtns() {
     delProjectBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             const projectName = e.target.previousSibling.textContent;
-            deleteProject(projectName);
+            Storage.deleteProject(projectName);
             //when we delete the project, remove the element from the UI
             e.target.parentElement.remove();
             currentProject = 'Inbox'; // when the user deletes their project, by default return them to the Inbox
@@ -81,15 +82,14 @@ function setUpProjectFormBtns() {
                 return;
             }
 
-            if (checkDuplicateName(formInput.value) === true) {
+            if (Storage.checkDuplicateName(formInput.value) === true) {
                 formInput.value = '';
                 alert('Project name already exists.')
                 return;
             }
 
             const newProject = new Project(formInput.value);
-            STORAGE.addProject(newProject);
-            // CreateNewProject(formInput.value);
+            Storage.addProject(newProject);
             renderProjectsList();
             setUpNavBtns(); // after rendering the projects list and a new list items pops in the dom add an event listener again
             setUpDeleteProjectBtns();
@@ -156,16 +156,10 @@ const setUpAddToDoFormBtns = () => {
             toDoPriorityInput.value = 'low';
         }
 
-        let newToDo = new ToDo(toDoTitleInput.value, toDoDescriptionInput.value, dueDate, toDoPriorityInput.value);
+        let newToDo = new ToDo(toDoTitleInput.value, toDoDescriptionInput.value, format(new Date(dueDate), 'MM-dd-yyyy'), toDoPriorityInput.value);
 
-        //always add by default all new todos to the Inbox
-        if (currentProject !== 'Inbox') { //prevent duplicate adding a todo if we are already inside Inbox
-            const inbox = getProjectObj('Inbox');
-            inbox.addToDo(newToDo);
-        }
+        Storage.addToDo(currentProject, newToDo);
 
-        let project = getProjectObj(currentProject);
-        project.addToDo(newToDo);
         toDoForm.reset();
         //because we reset the form, we have to set the default form input date and dueDate to Today again
         toDoDueDateInput.valueAsDate = new Date();
@@ -205,8 +199,7 @@ function setUpEditToDoTitle() {
                 e.target.textContent = newTitle;
             }
             const toDoID = e.target.parentElement.parentElement.id;
-            const toDoObj = getToDoObj(currentProject, toDoID);
-            toDoObj.editTitle(newTitle);
+            Storage.changeToDoTitle(currentProject, toDoID, newTitle);
         });
     });
 }
@@ -218,14 +211,13 @@ function setUpEditDueDate() {
         dueDateDiv.addEventListener('click', function (e) {
             const clickedElement = e.target;
             const toDoID = clickedElement.parentElement.parentElement.id;
-            const toDoObj = getToDoObj(currentProject, toDoID);
             const dateInput = document.createElement('input');
             dateInput.type = 'date';
             //clear the text inside the div 
             clickedElement.textContent = '';
             clickedElement.append(dateInput);
             dateInput.addEventListener('change', function () {
-                toDoObj.changeDueDate(dateInput.value);
+                Storage.changeDueDate(currentProject, toDoID, format(new Date(dateInput.value), 'MM-dd-yyyy'));
             });
         }, { once: true });
     });
@@ -237,7 +229,7 @@ const setUpDeleteToDoBtns = () => {
     deleteBtns.forEach((btn) => {
         btn.addEventListener('click', (e) => {
             const toDoId = e.target.parentElement.parentElement.parentElement.id; // our parent element <div class="todo-card"> is by default created with the corresponding ToDo ID
-            deleteAllToDos(toDoId);
+            Storage.deleteAllToDos(toDoId);
             renderSavedToDos(currentProject);
         });
     });
@@ -265,9 +257,8 @@ function setUpEditToDoDescription() {
     for (let spanEl of descriptionInfoSpans) {
         spanEl.addEventListener('input', function (e) {
             const toDoID = e.target.parentElement.parentElement.parentElement.id;
-            const toDoObj = getToDoObj(currentProject, toDoID);
             let newDescription = e.target.textContent.trim();
-            toDoObj.editDescription(newDescription);
+            Storage.editDescription(currentProject, toDoID, newDescription);
         });
     };
 }
@@ -279,7 +270,7 @@ function setUpChangeToDoPriority() {
         span.addEventListener('click', function (e) {
             const clickedSpan = e.target;
             const toDoID = clickedSpan.parentElement.parentElement.id;
-            const toDoObj = getToDoObj(currentProject, toDoID);
+            const toDoObj = Storage.getToDoObj(currentProject, toDoID);
             const priorityDOMelement = toDoPrioritySelectElement();
             clickedSpan.textContent = '';
             clickedSpan.append(priorityDOMelement);
@@ -287,6 +278,7 @@ function setUpChangeToDoPriority() {
                 const toDoCardDiv = document.getElementById(toDoID);
                 toDoCardDiv.classList.remove(toDoObj.getPriority());
                 toDoObj.changePriority(priorityDOMelement.value);
+                Storage.changePriority(currentProject, toDoID, priorityDOMelement.value);
                 toDoCardDiv.classList.add(toDoObj.getPriority());
             });
 

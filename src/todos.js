@@ -1,13 +1,17 @@
-import { format } from 'date-fns';
-
 class ToDo {
     constructor(title, description, dueDate, priority) {
         this.ID = crypto.randomUUID();
         this.title = title;
         this.description = description;
-        this.dueDate = format(new Date(dueDate), 'MM-dd-yyyy');
+        this.dueDate = dueDate;
         this.priority = priority;
     };
+
+    getID() { return this.ID }
+    getTitle() { return this.title }
+    getDescription() { return this.description }
+    getDueDate() { return this.dueDate }
+    getPriority() { return this.priority }
 
     editTitle(newTitle) {
         this.title = newTitle;
@@ -18,16 +22,13 @@ class ToDo {
     };
 
     changeDueDate(newDate) {
-        this.dueDate = format(new Date(newDate), 'MM-dd-yyyy');
+        this.dueDate = newDate;
     };
 
     changePriority(newPriority) {
         this.priority = newPriority;
     };
 
-    getPriority() {
-        return this.priority
-    };
 }
 
 export { ToDo };
