@@ -200,6 +200,7 @@ function setUpEditToDoTitle() {
     const toDoTitles = document.querySelectorAll('.card-title');
 
     toDoTitles.forEach(titleElement => {
+        titleElement.contentEditable = true;
         titleElement.addEventListener('input', (e) => {
             let newTitle = e.target.textContent.trim();
             //if the user edits the title and forgets to enter a title, alert and prompt for new title:
@@ -265,6 +266,7 @@ function setUpEditToDoDescription() {
     const descriptionInfoSpans = document.querySelectorAll('.description-info');
 
     for (let spanEl of descriptionInfoSpans) {
+        spanEl.contentEditable = true;
         spanEl.addEventListener('input', function (e) {
             const toDoID = e.target.parentElement.parentElement.parentElement.id;
             let newDescription = e.target.textContent.trim();
@@ -299,6 +301,10 @@ function setUpChangeToDoPriority() {
 function setUpToDosInteractivity() {
     setUpDeleteToDoBtns();
     setUpShowDetailsBtns();
+    if (currentProject === 'Today' || currentProject === 'This Week') {
+        //if inside Today or This Week do not setup editing ToDos details because they won't be saved!
+        return;
+    }
     setUpEditToDoTitle();
     setUpEditDueDate();
     setUpChangeToDoPriority();

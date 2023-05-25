@@ -236,7 +236,6 @@ const renderSavedToDos = (projectName) => {
         const cardTitleDiv = document.createElement('div');
         cardTitleDiv.classList.add('card-title');
         cardTitleDiv.textContent = toDo.getTitle();
-        cardTitleDiv.contentEditable = true; //make it possible to edit the titles when clicking on them
         toDoMain.append(cardTitleDiv);
 
         const cardDueDateDiv = document.createElement('div');
@@ -268,7 +267,6 @@ const renderSavedToDos = (projectName) => {
         description.classList.add('card-description');
         const descriptionInfo = document.createElement('span');
         descriptionInfo.classList.add('description-info');
-        descriptionInfo.contentEditable = true;
         descriptionInfo.textContent = toDo.getDescription();
         //if the toDo is with empty description, add by default this content:
         if (toDo.getDescription() === '') {
