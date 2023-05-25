@@ -16,17 +16,27 @@ function setUpToggleNavBtn() {
 
 function setUpNavBtns() {
     const navListItems = document.querySelectorAll('.project-name');
+    const addToDoBtn = document.getElementById('todo-form-btn');
+
     navListItems.forEach((navElement) => {
         navElement.addEventListener('click', (e) => {
             removeNavActiveClass();
             e.target.classList.add('nav-active');
             const projectName = e.target.textContent;
             currentProject = projectName;
-            if (currentProject === 'Today') {
-                Storage.updateTodayProject();
-            }
-            if (currentProject === 'This Week') {
-                Storage.updateThisWeekProject();
+            //if the user is inside Today or This Week, prevent them from adding ToDo's
+            switch (currentProject) {
+                case 'Today':
+                    Storage.updateTodayProject();
+                    addToDoBtn.disabled = true;
+                    break;
+                case 'This Week':
+                    Storage.updateThisWeekProject();
+                    addToDoBtn.disabled = true;
+                    break;
+                default:
+                    addToDoBtn.disabled = false;
+                    break;
             }
             renderSavedToDos(currentProject);
         });
