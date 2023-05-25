@@ -101,7 +101,7 @@ const projectForm = () => {
 const renderProjectsList = () => {
     const projectsListDivElement = document.querySelector('.projects-list');
 
-    removeChilds(projectsListDivElement); //remove previously displayed <li> project names on each render (otherwise they start duplicating on every new project added)
+    projectsListDivElement.innerHTML = ''; //clear if previously rendered projects
 
     Storage.savedProjects().getProjects().forEach((project) => {
         //do not include the created by default Porjects: Inbox Today and This Week because they are already added in the nav() menu by default
@@ -219,11 +219,11 @@ function toDoPrioritySelectElement() {
 }
 
 const renderSavedToDos = (projectName) => {
-    const projectsContainer = document.querySelector('.todos-container');
+    const toDosDivContainer = document.querySelector('.todos-container');
     const Project = Storage.getProjectObj(projectName);
     const savedTodos = Project.getSavedTodos();
 
-    removeChilds(projectsContainer); //remove all displayed project cards on each render
+    toDosDivContainer.innerHTML = ''; //clear if previously rendered todos
 
     savedTodos.forEach((toDo) => {
         const toDoCardDiv = document.createElement('div');
@@ -282,16 +282,10 @@ const renderSavedToDos = (projectName) => {
 
         toDoCardDiv.append(toDoDetails);
 
-        projectsContainer.append(toDoCardDiv);
+        toDosDivContainer.append(toDoCardDiv);
     });
 
     setUpToDosInteractivity();
-}
-
-const removeChilds = (parent) => {
-    while (parent.lastChild) {
-        parent.removeChild(parent.lastChild);
-    };
 }
 
 export { initDomLoad, projectForm, renderProjectsList, renderSavedToDos, toDoPrioritySelectElement };
