@@ -153,7 +153,7 @@ const addNewToDoForm = () => {
     titleInput.classList.add('todo-title');
     titleInput.placeholder = 'To Do Title';
     titleInput.type = 'text';
-    titleInput.required;
+    titleInput.required = true;
     toDoForm.append(titleInput);
 
     const descriptionInput = document.createElement('textarea');
@@ -165,7 +165,7 @@ const addNewToDoForm = () => {
     dueDateInput.classList.add('todo-duedate');
     dueDateInput.type = 'date';
     dueDateInput.valueAsDate = new Date(); // by default set the date to Today's day
-    dueDateInput.required;
+    dueDateInput.required = true;
     toDoForm.append(dueDateInput);
 
     const prioritySelect = toDoPrioritySelectElement();
