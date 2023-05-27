@@ -125,32 +125,15 @@ function setUpProjectFormBtns() {
     const addBtn = document.getElementById('form-add-btn');
     const cancelBtn = document.getElementById('form-cancel-btn');
     const projectForm = document.querySelector('.project-form');
-    const formInput = document.querySelector('.form-input');
 
     if (projectForm !== null) {
         //prevent the Enter key being pressed
         projectForm.addEventListener('submit', event => {
-            event.preventDefault();
+            submitNewProject();
         });
 
         addBtn.addEventListener('click', () => {
-            if (checkInputEmpty(formInput) === true) {
-                return;
-            }
-
-            if (Storage.checkDuplicateName(formInput.value) === true) {
-                formInput.value = '';
-                alert('Project name already exists.')
-                return;
-            }
-
-            const newProject = new Project(formInput.value);
-            Storage.addProject(newProject);
-            renderProjectListDivs();
-            setUpNavBtns(); // after rendering the projects list and a new list items pops in the dom add an event listener again
-            setUpDeleteProjectBtns();
-            projectForm.remove();
-            toggleAddProjectBtn();
+            submitNewProject();
         });
 
         cancelBtn.addEventListener('click', () => {
@@ -158,6 +141,29 @@ function setUpProjectFormBtns() {
             toggleAddProjectBtn();
         });
     }
+}
+
+function submitNewProject() {
+    const projectForm = document.querySelector('.project-form');
+    const formInput = document.querySelector('.form-input');
+
+    if (checkInputEmpty(formInput) === true) {
+        return;
+    }
+
+    if (Storage.checkDuplicateName(formInput.value) === true) {
+        formInput.value = '';
+        alert('Project name already exists.')
+        return;
+    }
+
+    const newProject = new Project(formInput.value);
+    Storage.addProject(newProject);
+    renderProjectListDivs();
+    setUpNavBtns(); // after rendering the projects list and a new list items pops in the dom add an event listener again
+    setUpDeleteProjectBtns();
+    projectForm.remove();
+    toggleAddProjectBtn();
 }
 
 function checkInputEmpty(inputFieldQuery) {
