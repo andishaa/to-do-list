@@ -145,14 +145,16 @@ function setUpProjectFormBtns() {
 function submitNewProject() {
     const projectForm = document.querySelector('.project-form');
     const formInput = document.querySelector('.form-input');
+    const projectErrorSpan = document.querySelector('#projectError');
 
-    if (checkInputEmpty(formInput) === true) {
+    if (!formInput.value) {
+        projectErrorSpan.textContent = "Project Name can't be empty";
         return;
     }
 
     if (Storage.checkDuplicateName(formInput.value) === true) {
         formInput.value = '';
-        alert('Project name already exists.')
+        projectErrorSpan.textContent = "Project name already exists."
         return;
     }
 
@@ -195,6 +197,7 @@ const setUpAddToDoFormBtns = () => {
     const toDoDescriptionInput = document.querySelector('.todo-description');
     const toDoDueDateInput = document.querySelector('.todo-duedate');
     const toDoPriorityInput = document.getElementById('priority-input');
+    const toDoTitleErrorSpan = document.querySelector('#titleError');
 
     // prevent the Enter key from being able to submit the form (otherwise it refreshes the hole page)
     toDoForm.addEventListener('submit', event => {
@@ -208,9 +211,11 @@ const setUpAddToDoFormBtns = () => {
 
     toDoAddBtn.addEventListener('click', () => {
         // if the Title input of the form is empty, prevent the form from being submitted
-        if (checkInputEmpty(toDoTitleInput) === true) {
+        if (!toDoTitleInput.value) {
+            toDoTitleErrorSpan.textContent = 'Title can not be empty';
             return;
         }
+        toDoTitleErrorSpan.textContent = '';
 
         // if no priority is selected by the user, add it to low priority by default
         if (toDoPriorityInput.value === 'none') {

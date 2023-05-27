@@ -64,6 +64,11 @@ body {
     background-color: #f5afaf;
 }
 
+.error { 
+    color: red;
+    font-style: italic;
+}
+
 /*ToDo priority colors*/
 
 .low {
@@ -138,6 +143,10 @@ body {
     cursor: pointer;
     padding: 0.4rem 0.5rem;
     flex-grow: 1;
+}
+
+#projectError  {
+    width: 100%;
 }
 
 .del-project-btn {
@@ -249,6 +258,10 @@ body {
 }
 
 /* Add new to-do form and buttons*/
+#titleError {
+    width: 100%;
+}
+
 #todo-form-btn {
     font-weight: 900;
     margin-bottom: 1rem;

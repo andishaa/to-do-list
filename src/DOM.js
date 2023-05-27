@@ -68,6 +68,11 @@ const projectForm = () => {
     input.placeholder = 'Project name';
     projectForm.appendChild(input);
 
+    const projectErrorSpan = document.createElement('span')
+    projectErrorSpan.id = 'projectError';
+    projectErrorSpan.classList.add('error');
+    projectForm.appendChild(projectErrorSpan);
+
     const addBtn = document.createElement('button');
     addBtn.textContent = 'Add';
     addBtn.id = 'form-add-btn';
@@ -133,22 +138,27 @@ const addNewToDoForm = () => {
     titleInput.placeholder = 'To Do Title';
     titleInput.type = 'text';
     titleInput.required = true;
-    toDoForm.append(titleInput);
+    toDoForm.appendChild(titleInput);
+
+    const titileErrorSpan = document.createElement('span');
+    titileErrorSpan.id = 'titleError';
+    titileErrorSpan.classList.add('error');
+    toDoForm.appendChild(titileErrorSpan);
 
     const descriptionInput = document.createElement('textarea');
     descriptionInput.classList.add('todo-description');
     descriptionInput.placeholder = 'Description (not required)';
-    toDoForm.append(descriptionInput);
+    toDoForm.appendChild(descriptionInput);
 
     const dueDateInput = document.createElement('input');
     dueDateInput.classList.add('todo-duedate');
     dueDateInput.type = 'date';
     dueDateInput.valueAsDate = new Date(); // by default set the date to Today's day
     dueDateInput.required = true;
-    toDoForm.append(dueDateInput);
+    toDoForm.appendChild(dueDateInput);
 
     const prioritySelect = toDoPrioritySelectElement();
-    toDoForm.append(prioritySelect);
+    toDoForm.appendChild(prioritySelect);
 
     const buttonsSpan = document.createElement('span');
     buttonsSpan.classList.add('add-cancel-todo-btns');
@@ -158,15 +168,15 @@ const addNewToDoForm = () => {
     addToDoBtn.id = 'todo-add-btn';
     addToDoBtn.classList.add('green-btn');
     addToDoBtn.type = 'button';
-    buttonsSpan.append(addToDoBtn);
+    buttonsSpan.appendChild(addToDoBtn);
 
     const cancelToDoBtn = document.createElement('button');
     cancelToDoBtn.textContent = 'Cancel';
     cancelToDoBtn.id = 'todo-cancel-btn';
     cancelToDoBtn.classList.add('red-btn');
     cancelToDoBtn.type = 'button';
-    buttonsSpan.append(cancelToDoBtn);
-    toDoForm.append(buttonsSpan);
+    buttonsSpan.appendChild(cancelToDoBtn);
+    toDoForm.appendChild(buttonsSpan);
 
     return toDoForm;
 }
