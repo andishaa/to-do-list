@@ -357,4 +357,4 @@ function setUpToDosInteractivity() {
     setUpEditToDoDescription();
 }
 
-export { initDomLoad, initUI, setUpToDosInteractivity, renderProjectListDivs, renderProjectToDoDivs }
+export { initDomLoad, initUI }
