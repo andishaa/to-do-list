@@ -125,6 +125,10 @@ body {
     font-size: 1.5rem;
 }
 
+.projects-list {
+    padding-bottom: 1rem;
+}
+
 .projects-list-item {
     display: flex;
 }
@@ -325,8 +329,8 @@ select:focus {
     .del-project-btn {
         display: none;
     }
-    
-    .projects-list-item:hover .del-project-btn{
+
+    .projects-list-item:hover .del-project-btn {
         display: block;
     }
 

@@ -127,7 +127,6 @@ function setUpProjectFormBtns() {
     const projectForm = document.querySelector('.project-form');
 
     if (projectForm !== null) {
-        //prevent the Enter key being pressed
         projectForm.addEventListener('submit', event => {
             submitNewProject();
         });
