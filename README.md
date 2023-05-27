@@ -3,13 +3,14 @@
 Organize your life :)
 
 This is a simple to-do list application built using Node.js and JavaScript.
+The data is saved in localStorage
 
 ## Features
 
 - Add new tasks to the to-do list
-- Mark tasks as complete
+- Filter tasks by two criterias: due Today or dur This Weej
 - Remove tasks from the list
-- View the list of tasks
+- Creat and View custom project lists with tasks
 
 ## Installation
 
