@@ -1,10 +1,56 @@
 import { format } from "date-fns";
-import { projectForm, renderProjectsList, renderSavedToDos, toDoPrioritySelectElement } from "./DOM";
+import * as DOM from "./DOM";
 import { Project } from "./projects";
 import { ToDo } from "./todos";
 import { Storage } from "./storage";
 
 let currentProject = 'Inbox';
+
+function initDomLoad() {
+    const body = document.body;
+    body.prepend(DOM.header());
+    body.append(DOM.nav());
+    body.append(DOM.main());
+    renderProjectListDivs();
+    renderProjectToDoDivs(currentProject);
+}
+
+function initUI() {
+    setUpToggleNavBtn();
+    setUpAddProjectBtn();
+    setUpNavBtns();
+    setUpDeleteProjectBtns();
+    setUpAddNewToDoBtn();
+    setUpAddToDoFormBtns();
+}
+
+function renderProjectListDivs() {
+    const projectsListDiv = document.querySelector('.projects-list');
+
+    projectsListDiv.innerHTML = ''; //clear if previously rendered projects
+
+    Storage.savedProjects().getProjects().forEach((project) => {
+        //do not include the created by default Porjects: Inbox Today and This Week because they are already added in the nav() menu by default
+        if (project.getName() === 'Inbox' || project.getName() === 'Today' || project.getName() === 'This Week') {
+            return;
+        }
+        DOM.createProjectListItemDiv(project);
+    });
+}
+
+function renderProjectToDoDivs(projectName) {
+    const toDosDivContainer = document.querySelector('.todos-container');
+    const projectObject = Storage.getProjectObj(projectName);
+    const savedTodos = projectObject.getSavedTodos();
+
+    toDosDivContainer.innerHTML = ''; //clear if previously rendered todos
+
+    savedTodos.forEach((toDo) => {
+        DOM.createToDoCardDiv(toDo);
+    });
+
+    setUpToDosInteractivity();
+}
 
 function setUpToggleNavBtn() {
     const toggleNavBtn = document.querySelector('.toggle-nav-btn');
@@ -38,7 +84,7 @@ function setUpNavBtns() {
                     addToDoBtn.disabled = false;
                     break;
             }
-            renderSavedToDos(currentProject);
+            renderProjectToDoDivs(currentProject);
         });
     });
 }
@@ -52,7 +98,7 @@ function setUpDeleteProjectBtns() {
             //when we delete the project, remove the element from the UI
             e.target.parentElement.remove();
             currentProject = 'Inbox'; // when the user deletes their project, by default return them to the Inbox
-            renderSavedToDos(currentProject);
+            renderProjectToDoDivs(currentProject);
         });
     });
 }
@@ -70,7 +116,7 @@ function setUpAddProjectBtn() {
 
     addProjectBtn.addEventListener('click', () => {
         toggleAddProjectBtn(); // when the button is clicked hide it and show up the form
-        projectsNav.append(projectForm()); //add the form below the Projects list
+        projectsNav.append(DOM.projectForm()); //add the form below the Projects list
         setUpProjectFormBtns();
     });
 }
@@ -100,7 +146,7 @@ function setUpProjectFormBtns() {
 
             const newProject = new Project(formInput.value);
             Storage.addProject(newProject);
-            renderProjectsList();
+            renderProjectListDivs();
             setUpNavBtns(); // after rendering the projects list and a new list items pops in the dom add an event listener again
             setUpDeleteProjectBtns();
             projectForm.remove();
@@ -176,7 +222,7 @@ const setUpAddToDoFormBtns = () => {
         dueDate = new Date();
         toggleToDoForm();
         toggleToDoFormBtn();
-        renderSavedToDos(currentProject); // render the list of todos when a new one is added
+        renderProjectToDoDivs(currentProject); // render the list of todos when a new one is added
     });
 
     toDoCancelBtn.addEventListener('click', () => {
@@ -241,7 +287,7 @@ const setUpDeleteToDoBtns = () => {
         btn.addEventListener('click', (e) => {
             const toDoId = e.target.parentElement.parentElement.parentElement.id; // our parent element <div class="todo-card"> is by default created with the corresponding ToDo ID
             Storage.deleteAllToDos(toDoId);
-            renderSavedToDos(currentProject);
+            renderProjectToDoDivs(currentProject);
         });
     });
 }
@@ -283,7 +329,7 @@ function setUpChangeToDoPriority() {
             const clickedSpan = e.target;
             const toDoID = clickedSpan.parentElement.parentElement.id;
             const toDoObj = Storage.getToDoObj(currentProject, toDoID);
-            const priorityDOMelement = toDoPrioritySelectElement();
+            const priorityDOMelement = DOM.toDoPrioritySelectElement();
             clickedSpan.textContent = '';
             clickedSpan.append(priorityDOMelement);
             priorityDOMelement.addEventListener('change', function () {
@@ -311,13 +357,4 @@ function setUpToDosInteractivity() {
     setUpEditToDoDescription();
 }
 
-const initUI = () => {
-    setUpToggleNavBtn();
-    setUpAddProjectBtn();
-    setUpNavBtns();
-    setUpDeleteProjectBtns();
-    setUpAddNewToDoBtn();
-    setUpAddToDoFormBtns();
-}
-
-export { initUI, setUpToDosInteractivity }
+export { initDomLoad, initUI, setUpToDosInteractivity, renderProjectListDivs, renderProjectToDoDivs }

@@ -1,16 +1,3 @@
-import { setUpToDosInteractivity } from "./user-interface";
-import { Storage } from "./storage";
-
-const body = document.body;
-
-const initDomLoad = () => {
-    body.prepend(header());
-    body.append(nav());
-    body.append(main());
-    renderProjectsList();
-    renderSavedToDos('Inbox'); // always show Inbox on initial load
-}
-
 const header = () => {
     const header = document.createElement('header');
     header.classList.add('header');
@@ -98,30 +85,22 @@ const projectForm = () => {
     return projectForm;
 }
 
-const renderProjectsList = () => {
-    const projectsListDivElement = document.querySelector('.projects-list');
+function createProjectListItemDiv(projectObj) {
+    const projectsListDiv = document.querySelector('.projects-list');
 
-    projectsListDivElement.innerHTML = ''; //clear if previously rendered projects
+    const projectListItemDiv = document.createElement('div');
+    projectListItemDiv.classList.add('projects-list-item');
 
-    Storage.savedProjects().getProjects().forEach((project) => {
-        //do not include the created by default Porjects: Inbox Today and This Week because they are already added in the nav() menu by default
-        if (project.getName() === 'Inbox' || project.getName() === 'Today' || project.getName() === 'This Week') {
-            return;
-        }
-        const projectListItem = document.createElement('div');
-        projectListItem.classList.add('projects-list-item');
+    const nameContainerDiv = document.createElement('div');
+    nameContainerDiv.classList.add('project-name');
+    nameContainerDiv.textContent = projectObj.getName();
 
-        const nameContainer = document.createElement('div');
-        nameContainer.classList.add('project-name');
-        nameContainer.textContent = project.getName();
+    const deleteBtnContainerDiv = document.createElement('div');
+    deleteBtnContainerDiv.classList.add('del-project-btn');
+    deleteBtnContainerDiv.textContent = 'X';
 
-        const deleteBtnContainer = document.createElement('div');
-        deleteBtnContainer.classList.add('del-project-btn');
-        deleteBtnContainer.textContent = 'X'; //maybe hide it and show it only while the project name is with class nav-active
-
-        projectListItem.append(nameContainer, deleteBtnContainer);
-        projectsListDivElement.append(projectListItem);
-    });
+    projectListItemDiv.append(nameContainerDiv, deleteBtnContainerDiv);
+    projectsListDiv.append(projectListItemDiv);
 }
 
 const main = () => {
@@ -218,74 +197,66 @@ function toDoPrioritySelectElement() {
     return prioritySelectElement;
 }
 
-const renderSavedToDos = (projectName) => {
+function createToDoCardDiv(toDoObj) {
     const toDosDivContainer = document.querySelector('.todos-container');
-    const Project = Storage.getProjectObj(projectName);
-    const savedTodos = Project.getSavedTodos();
 
-    toDosDivContainer.innerHTML = ''; //clear if previously rendered todos
+    const toDoCardDiv = document.createElement('div');
+    toDoCardDiv.classList.add('todo-card', `${toDoObj.getPriority()}`); // add the priority status of the ToDo as a class to be able to change it's styles
+    toDoCardDiv.id = toDoObj.getID();
 
-    savedTodos.forEach((toDo) => {
-        const toDoCardDiv = document.createElement('div');
-        toDoCardDiv.classList.add('todo-card', `${toDo.getPriority()}`); // add the priority status of the ToDo as a class to be able to change it's styles
-        toDoCardDiv.id = toDo.getID();
+    const toDoMain = document.createElement('div');
+    toDoMain.classList.add('todo-main');
 
-        const toDoMain = document.createElement('div');
-        toDoMain.classList.add('todo-main');
+    const cardTitleDiv = document.createElement('div');
+    cardTitleDiv.classList.add('card-title');
+    cardTitleDiv.textContent = toDoObj.getTitle();
+    toDoMain.append(cardTitleDiv);
 
-        const cardTitleDiv = document.createElement('div');
-        cardTitleDiv.classList.add('card-title');
-        cardTitleDiv.textContent = toDo.getTitle();
-        toDoMain.append(cardTitleDiv);
+    const cardDueDateDiv = document.createElement('div');
+    cardDueDateDiv.classList.add('card-duedate');
+    cardDueDateDiv.textContent = toDoObj.getDueDate();
+    toDoMain.append(cardDueDateDiv);
 
-        const cardDueDateDiv = document.createElement('div');
-        cardDueDateDiv.classList.add('card-duedate');
-        cardDueDateDiv.textContent = toDo.getDueDate();
-        toDoMain.append(cardDueDateDiv);
+    const cardBtns = document.createElement('div');
+    cardBtns.classList.add('card-btns');
+    const showMore = document.createElement('button');
+    showMore.classList.add('btn', 'show-more-btn');
+    showMore.textContent = '>>';
+    cardBtns.append(showMore);
 
-        const cardBtns = document.createElement('div');
-        cardBtns.classList.add('card-btns');
-        const showMore = document.createElement('button');
-        showMore.classList.add('btn', 'show-more-btn');
-        showMore.textContent = '>>';
-        cardBtns.append(showMore);
+    const deleteBtn = document.createElement('button');
+    deleteBtn.classList.add('btn', 'delete-btn');
+    deleteBtn.textContent = 'Delete';
+    cardBtns.append(deleteBtn);
 
-        const deleteBtn = document.createElement('button');
-        deleteBtn.classList.add('btn', 'delete-btn');
-        deleteBtn.textContent = 'Delete';
-        cardBtns.append(deleteBtn);
+    toDoMain.append(cardBtns);
+    toDoCardDiv.append(toDoMain);
 
-        toDoMain.append(cardBtns);
-        toDoCardDiv.append(toDoMain);
+    const toDoDetails = document.createElement('div');
+    toDoDetails.classList.add('todo-details');
+    toDoDetails.setAttribute('style', 'display: none'); // by default hide the details div of the todo on rendering
 
-        const toDoDetails = document.createElement('div');
-        toDoDetails.classList.add('todo-details');
-        toDoDetails.setAttribute('style', 'display: none'); // by default hide the details div of the todo on rendering
+    const description = document.createElement('div');
+    description.textContent = 'Description: ';
+    description.classList.add('card-description');
+    const descriptionInfo = document.createElement('span');
+    descriptionInfo.classList.add('description-info');
+    descriptionInfo.textContent = toDoObj.getDescription();
+    //if the toDo is with empty description, add by default this content:
+    if (toDoObj.getDescription() === '') {
+        descriptionInfo.textContent = 'Empty description';
+    }
+    description.append(descriptionInfo);
+    toDoDetails.append(description);
 
-        const description = document.createElement('div');
-        description.textContent = 'Description: ';
-        description.classList.add('card-description');
-        const descriptionInfo = document.createElement('span');
-        descriptionInfo.classList.add('description-info');
-        descriptionInfo.textContent = toDo.getDescription();
-        //if the toDo is with empty description, add by default this content:
-        if (toDo.getDescription() === '') {
-            descriptionInfo.textContent = 'Empty description';
-        }
-        description.append(descriptionInfo);
-        toDoDetails.append(description);
+    const toDoPriority = document.createElement('span');
+    toDoPriority.classList.add('todo-priority');
+    toDoPriority.textContent = `Priority: ${toDoObj.getPriority()}`;
+    toDoDetails.append(toDoPriority);
 
-        const toDoPriority = document.createElement('span');
-        toDoPriority.classList.add('todo-priority');
-        toDoPriority.textContent = `Priority: ${toDo.getPriority()}`;
-        toDoDetails.append(toDoPriority);
+    toDoCardDiv.append(toDoDetails);
 
-        toDoCardDiv.append(toDoDetails);
-
-        toDosDivContainer.append(toDoCardDiv);
-    });
-
-    setUpToDosInteractivity();
+    toDosDivContainer.append(toDoCardDiv);
 }
 
-export { initDomLoad, projectForm, renderProjectsList, renderSavedToDos, toDoPrioritySelectElement };
+export { header, nav, main, projectForm, toDoPrioritySelectElement, createToDoCardDiv, createProjectListItemDiv };

@@ -1,10 +1,9 @@
 import './style.css';
-import { initUI } from './user-interface';
-import { initDomLoad } from './DOM';
+import * as UI from './user-interface';
 
 function initialPageLoad() {
-    initDomLoad();
-    initUI();
+    UI.initDomLoad();
+    UI.initUI();
 }
 
 document.addEventListener('DOMContentLoaded', initialPageLoad())
