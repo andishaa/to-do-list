@@ -290,6 +290,22 @@ textarea {
     font-weight: 900;
 }
 
+/* This fixes the zoom on iOS devices when selecting the input fields */
+input[type='text'],
+input[type='date'],
+textarea,
+select:focus {
+    font-size: 16px !important;
+}
+
+@media scren and (-webkit-min-device-pixel-ratio:0) {
+    select:focus,
+    textarea:focus,
+    input.focus {
+        font-size: 16px !important;
+    }
+}
+
 /*Media queries for desktop screens*/
 @media (min-width: 768px) {
     .nav {
