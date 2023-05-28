@@ -8,7 +8,7 @@ The data is saved in localStorage
 ## Features
 
 - Add new tasks to the to-do list
-- Filter tasks by two criterias: due Today or dur This Weej
+- Filter tasks by two criterias: due Today or due This Week
 - Remove tasks from the list
 - Creat and View custom project lists with tasks
 
@@ -48,10 +48,7 @@ The data is saved in localStorage
 
 The project has the following dependencies:
 
-- Express: Web framework for Node.js
-- EJS: Templating engine for rendering dynamic HTML pages
-- Body-parser: Middleware for parsing request bodies
-- Method-override: Middleware for supporting HTTP methods such as PUT and DELETE
+- 
 
 These dependencies are automatically installed when running `npm install`.
 
