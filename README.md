@@ -48,9 +48,18 @@ The data is saved in localStorage
 
 The project has the following dependencies:
 
-- 
+- `date-fns`: Version 2.29.3
 
 These dependencies are automatically installed when running `npm install`.
+
+## Dev Dependencies
+
+- `css-loader`: Version 6.7.1
+- `html-webpack-plugin`: Version 5.5.0
+- `style-loader`: Version 3.3.1
+- `webpack`: Version 5.73.0
+- `webpack-cli`: Version 4.10.0
+- `webpack-dev-server`: Version 4.9.2
 
 ## Contributing
 
