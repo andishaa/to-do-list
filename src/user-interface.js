@@ -17,9 +17,7 @@ function initDomLoad() {
 
 function initUI() {
     setUpToggleNavBtn();
-    setUpAddProjectBtn();
-    setUpNavBtns();
-    setUpDeleteProjectBtns();
+    setUpNav();
     setUpAddNewToDoBtn();
     setUpAddToDoFormBtns();
 }
@@ -60,17 +58,19 @@ function setUpToggleNavBtn() {
     });
 }
 
-function setUpNavBtns() {
-    const navListItems = document.querySelectorAll('.project-name');
+function setUpNav() {
+    const navElement = document.querySelector(".nav");
     const addToDoBtn = document.getElementById('todo-form-btn');
 
-    navListItems.forEach((navElement) => {
-        navElement.addEventListener('click', (e) => {
+    navElement.addEventListener("click", function (event) {
+        const target = event.target;
+
+        //setup navigating through projects
+        if (target.classList.contains("project-name")) {
             removeNavActiveClass();
-            e.target.classList.add('nav-active');
-            const projectName = e.target.textContent;
-            currentProject = projectName;
-            //if the user is inside Today or This Week, prevent them from adding ToDo's
+            target.classList.add('nav-active');
+            currentProject = target.textContent;
+
             switch (currentProject) {
                 case 'Today':
                     Storage.updateTodayProject();
@@ -84,22 +84,28 @@ function setUpNavBtns() {
                     addToDoBtn.disabled = false;
                     break;
             }
-            renderProjectToDoDivs(currentProject);
-        });
-    });
-}
 
-function setUpDeleteProjectBtns() {
-    const delProjectBtns = document.querySelectorAll('.del-project-btn');
-    delProjectBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const projectName = e.target.previousSibling.textContent;
-            Storage.deleteProject(projectName);
-            //when we delete the project, remove the element from the UI
-            e.target.parentElement.remove();
-            currentProject = 'Inbox'; // when the user deletes their project, by default return them to the Inbox
             renderProjectToDoDivs(currentProject);
-        });
+
+        }
+
+        //setup project delete
+        if (target.classList.contains('del-project-btn')) {
+            const projectNameToDelete = target.previousSibling.textContent;
+            Storage.deleteProject(projectNameToDelete);
+            target.parentElement.remove();
+            currentProject = 'Inbox';
+            renderProjectToDoDivs(currentProject);
+        }
+
+        //setup Add project button
+        if (target.id === 'add-project-btn') {
+            const projectsNav = document.querySelector('.projects-nav')
+
+            toggleAddProjectBtn(); // when the button is clicked hide it and show up the form
+            projectsNav.append(DOM.projectForm()); //add the form below the Projects list
+            setUpProjectFormBtns();
+        }
     });
 }
 
@@ -108,17 +114,6 @@ function removeNavActiveClass() {
     while (elWithActiveClass.length) {
         elWithActiveClass[0].classList.remove('nav-active');
     };
-}
-
-function setUpAddProjectBtn() {
-    const addProjectBtn = document.getElementById('add-project-btn');
-    const projectsNav = document.querySelector('.projects-nav')
-
-    addProjectBtn.addEventListener('click', () => {
-        toggleAddProjectBtn(); // when the button is clicked hide it and show up the form
-        projectsNav.append(DOM.projectForm()); //add the form below the Projects list
-        setUpProjectFormBtns();
-    });
 }
 
 function setUpProjectFormBtns() {
@@ -161,8 +156,6 @@ function submitNewProject() {
     const newProject = new Project(formInput.value);
     Storage.addProject(newProject);
     renderProjectListDivs();
-    setUpNavBtns(); // after rendering the projects list and a new list items pops in the dom add an event listener again
-    setUpDeleteProjectBtns();
     projectForm.remove();
     toggleAddProjectBtn();
 }
