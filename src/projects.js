@@ -1,40 +1,39 @@
-class Project {
-    constructor(name) {
-        this.name = name;
-        this.savedToDos = [];
-    }
+export default class Project {
+  constructor(name) {
+    this.name = name;
+    this.savedToDos = [];
+  }
 
-    getName() {
-        return this.name;
-    }
+  getName() {
+    return this.name;
+  }
 
-    editName(newName) {
-        this.name = newName.trim();
-    }
+  editName(newName) {
+    this.name = newName.trim();
+  }
 
-    addToDo(toDo) {
-        this.savedToDos.push(toDo);
-    }
+  addToDo(toDo) {
+    this.savedToDos.push(toDo);
+  }
 
-    deleteToDo(toDoID) {
-        const toDoToDelete = this.savedToDos.findIndex((toDo) => toDo.ID === toDoID);
-        if (toDoToDelete !== -1) {
-            this.savedToDos.splice(toDoToDelete, 1);
-        }
+  deleteToDo(toDoID) {
+    const toDoToDelete = this.savedToDos.findIndex(
+      (toDo) => toDo.ID === toDoID
+    );
+    if (toDoToDelete !== -1) {
+      this.savedToDos.splice(toDoToDelete, 1);
     }
+  }
 
-    clearSavedToDos() {
-        this.savedToDos = [];
-    }
+  clearSavedToDos() {
+    this.savedToDos = [];
+  }
 
-    setSavedTodos(array) {
-        this.savedToDos = array;
-    }
+  setSavedTodos(array) {
+    this.savedToDos = array;
+  }
 
-    getSavedTodos() {
-        return this.savedToDos;
-    }
-
+  getSavedTodos() {
+    return this.savedToDos;
+  }
 }
-
-export { Project };

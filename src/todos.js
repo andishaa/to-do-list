@@ -1,34 +1,45 @@
-class ToDo {
-    constructor(title, description, dueDate, priority) {
-        this.ID = crypto.randomUUID();
-        this.title = title;
-        this.description = description;
-        this.dueDate = dueDate;
-        this.priority = priority;
-    };
+export default class ToDo {
+  constructor(title, description, dueDate, priority) {
+    this.ID = crypto.randomUUID();
+    this.title = title;
+    this.description = description;
+    this.dueDate = dueDate;
+    this.priority = priority;
+  }
 
-    getID() { return this.ID }
-    getTitle() { return this.title }
-    getDescription() { return this.description }
-    getDueDate() { return this.dueDate }
-    getPriority() { return this.priority }
+  getID() {
+    return this.ID;
+  }
 
-    editTitle(newTitle) {
-        this.title = newTitle;
-    };
+  getTitle() {
+    return this.title;
+  }
 
-    editDescription(newDescription) {
-        this.description = newDescription;
-    };
+  getDescription() {
+    return this.description;
+  }
 
-    changeDueDate(newDate) {
-        this.dueDate = newDate;
-    };
+  getDueDate() {
+    return this.dueDate;
+  }
 
-    changePriority(newPriority) {
-        this.priority = newPriority;
-    };
+  getPriority() {
+    return this.priority;
+  }
 
+  editTitle(newTitle) {
+    this.title = newTitle;
+  }
+
+  editDescription(newDescription) {
+    this.description = newDescription;
+  }
+
+  changeDueDate(newDate) {
+    this.dueDate = newDate;
+  }
+
+  changePriority(newPriority) {
+    this.priority = newPriority;
+  }
 }
-
-export { ToDo };
