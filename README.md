@@ -60,6 +60,11 @@ These dependencies are automatically installed when running `npm install`.
 - `webpack`: Version 5.73.0
 - `webpack-cli`: Version 4.10.0
 - `webpack-dev-server`: Version 4.9.2
+- `eslint`: ^8.42.0
+- `eslint-config-airbnb-base`: ^15.0.0
+- `eslint-config-prettier`: ^8.8.0
+- `eslint-plugin-import`: ^2.27.5
+- `prettier`: 2.8.8
 
 ## Contributing
 
